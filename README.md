@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SEDDEH v2 — Stichting Eygelshoven door de Eeuwen Heen
 
-## Getting Started
+Nieuwe website voor de heemkundevereniging van Eygelshoven, gebouwd met een moderne stack maar met behoud van de authentieke uitstraling van de stichting.
 
-First, run the development server:
+## Tech Stack
+
+- **Framework:** Next.js 15 (App Router)
+- **CMS:** Sanity v3 (embedded studio op `/studio`)
+- **Styling:** Tailwind CSS v4 met heritage-thema (EB Garamond serif)
+- **E-mail:** Resend (archief aanvragen)
+- **Afbeeldingen:** Sanity Asset CDN
+- **Hosting:** Vercel
+
+## Pagina's
+
+| Route | Beschrijving |
+|-------|-------------|
+| `/` | Homepage |
+| `/de-stichting` | Over de stichting + subpagina's (Bestuur, Doelstellingen, etc.) |
+| `/nieuws` | Nieuwsberichten |
+| `/werkgroepen` | Werkgroepen van de stichting |
+| `/gallerijen` | Fotogalerijen |
+| `/agenda` | Evenementen kalender |
+| `/kennisbank` | Publieke kennisbron met gecategoriseerde links |
+| `/archief-aanvraag` | Formulier om archiefstukken aan te vragen |
+| `/contact` | Contactgegevens |
+| `/contact/schenking` | Schenkingen |
+| `/studio` | Sanity CMS Studio (beheer) |
+
+## Aan de slag
+
+### 1. Sanity project aanmaken
+
+Ga naar [sanity.io/manage](https://www.sanity.io/manage) en maak een nieuw project aan.
+
+### 2. Environment variables
+
+Kopieer `.env.local.example` naar `.env.local` en vul de waarden in:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.local.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Installatie
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Development
 
-## Learn More
+```bash
+yarn dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+- Website: [http://localhost:3000](http://localhost:3000)
+- CMS Studio: [http://localhost:3000/studio](http://localhost:3000/studio)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Kennisbank
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+De kennisbank bevat gecategoriseerde links naar publieke bronnen voor genealogisch en historisch onderzoek. Links worden beheerd via het Sanity CMS.
 
-## Deploy on Vercel
+### Initiële categorieën:
+- Genealogie & Stambomen
+- Kadaster & Archieven
+- Regionale Historie
+- Heemkundeverenigingen
+- Overige Websites
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Archief Aanvraag
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Het archief van de stichting is niet publiek toegankelijk maar wel op aanvraag. Bezoekers kunnen via het formulier een aanvraag indienen. De aanvraag wordt via Resend gemaild naar de stichting.
+
+## Deployment
+
+```bash
+vercel
+```
+
+## Licentie
+
+Eigendom van Stichting Eygelshoven door de Eeuwen Heen.
