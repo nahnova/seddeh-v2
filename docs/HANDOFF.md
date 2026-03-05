@@ -13,7 +13,7 @@ De volledige website structuur staat, alle pagina's zijn aangemaakt, en de eerst
 ### Infrastructuur
 - [x] Next.js 15 project aangemaakt (`/Users/noaheutz/Developer/seddeh-v2`)
 - [x] GitHub repo: `nahnova/seddeh-v2`
-- [x] Sanity CMS project aangemaakt (ID: `1qeyyqwh`, dataset: `production`)
+- [x] Sanity CMS project (ID: `sglv0dfa`, dataset: `production`, org: NahNova)
 - [x] Project-specifiek editor token aangemaakt
 - [x] CORS origin `localhost:3000` geconfigureerd
 - [x] 12 Sanity schema's (content types) gedefinieerd
@@ -47,12 +47,7 @@ De volledige website structuur staat, alle pagina's zijn aangemaakt, en de eerst
 
 ### Hoge Prioriteit
 
-#### 1. Sanity project verplaatsen naar NahNova org
-Het project staat nu onder een persoonlijk account. Verplaats naar NahNova org via:
-- Ga naar https://www.sanity.io/manage/project/1qeyyqwh/settings
-- "Transfer project" naar de NahNova organisatie
-
-#### 2. Resend instellen
+#### 1. Resend instellen
 - Account aanmaken op https://resend.com
 - API key genereren
 - Toevoegen aan `.env.local`: `RESEND_API_KEY=re_xxxxx`
@@ -89,7 +84,7 @@ De contact pagina toont nu hardcoded info. Optie:
 #### 6. Productie CORS origin toevoegen
 Na deployment, voeg het productie-domein toe:
 ```bash
-curl -X POST "https://api.sanity.io/v2021-06-07/projects/1qeyyqwh/cors" \
+curl -X POST "https://api.sanity.io/v2021-06-07/projects/sglv0dfa/cors" \
   -H "Authorization: Bearer <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{"origin": "https://jouw-domein.nl", "allowCredentials": true}'
@@ -126,7 +121,7 @@ De boekenbeurs is elke eerste zaterdag. Momenteel staat er 1 als voorbeeld. Over
 
 ### Environment Variables
 ```
-NEXT_PUBLIC_SANITY_PROJECT_ID=1qeyyqwh
+NEXT_PUBLIC_SANITY_PROJECT_ID=sglv0dfa
 NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_READ_TOKEN=<editor token in .env.local>
 RESEND_API_KEY=<nog in te vullen>
