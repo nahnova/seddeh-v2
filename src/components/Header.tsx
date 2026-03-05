@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -43,9 +44,14 @@ export function Header() {
         {/* Logo area */}
         <div className="flex items-center justify-between py-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-gold bg-primary-dark text-white">
-              <span className="font-serif text-lg font-bold">S</span>
-            </div>
+            <Image
+              src="/wapen.png"
+              alt="Wapen van Eygelshoven"
+              width={48}
+              height={56}
+              className="h-14 w-auto"
+              priority
+            />
             <div className="hidden sm:block">
               <h1 className="font-serif text-lg font-semibold leading-tight text-primary-dark">
                 Stichting Eygelshoven

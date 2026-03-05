@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -7,9 +8,18 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-3">
           {/* About */}
           <div>
-            <h3 className="mb-3 font-serif text-lg font-semibold text-primary-dark">
-              Stichting Eygelshoven
-            </h3>
+            <div className="mb-3 flex items-center gap-3">
+              <Image
+                src="/wapen.png"
+                alt="Wapen van Eygelshoven"
+                width={32}
+                height={38}
+                className="h-10 w-auto"
+              />
+              <h3 className="font-serif text-lg font-semibold text-primary-dark">
+                Stichting Eygelshoven
+              </h3>
+            </div>
             <p className="font-serif text-sm leading-relaxed text-text-light">
               Heemkundevereniging voor Eygelshoven. Opgericht op 30 november
               1981 ter gelegenheid van het 850-jarig bestaan van Eygelshoven.

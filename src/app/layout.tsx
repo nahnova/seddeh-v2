@@ -23,6 +23,10 @@ export const metadata: Metadata = {
   },
   description:
     "Heemkundevereniging voor Eygelshoven. Wij verzamelen, bewaren en ontsluiten de rijke historie van ons dorp.",
+  icons: {
+    icon: "/wapen.png",
+    apple: "/wapen.png",
+  },
 };
 
 export default function RootLayout({

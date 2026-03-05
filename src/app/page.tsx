@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { client } from "@/sanity/client";
 import { allNewsQuery, allEventsQuery } from "@/sanity/lib/queries";
 import { BookOpen, Calendar, Archive, Users } from "lucide-react";
@@ -20,9 +21,14 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-primary-dark py-20 text-white">
         <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5" />
         <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border-2 border-gold bg-white/10">
-            <span className="font-serif text-3xl font-bold text-gold">S</span>
-          </div>
+          <Image
+            src="/wapen.png"
+            alt="Wapen van Eygelshoven"
+            width={80}
+            height={96}
+            className="mx-auto mb-6 h-24 w-auto drop-shadow-lg"
+            priority
+          />
           <h1 className="font-serif text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
             Eygelshoven
             <br />
