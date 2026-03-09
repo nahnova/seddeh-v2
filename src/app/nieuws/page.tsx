@@ -27,7 +27,7 @@ export default async function NieuwsPage() {
         </p>
       )}
 
-      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <section aria-label="Nieuwsberichten" className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {news.map(
           (item: {
             _id: string;
@@ -52,7 +52,7 @@ export default async function NieuwsPage() {
                 />
               )}
               <div className="p-6">
-                <time className="font-sans text-xs text-text-light">
+                <time dateTime={item.publishedAt} className="font-sans text-xs text-text-light">
                   {new Date(item.publishedAt).toLocaleDateString("nl-NL", {
                     year: "numeric",
                     month: "long",
@@ -71,7 +71,7 @@ export default async function NieuwsPage() {
             </Link>
           ),
         )}
-      </div>
+      </section>
     </div>
   );
 }

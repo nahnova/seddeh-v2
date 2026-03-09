@@ -91,7 +91,7 @@ export default async function KennisbankPage() {
       {featuredLinks.length > 0 && (
         <section className="mt-10">
           <h2 className="flex items-center gap-2 font-serif text-xl font-semibold text-primary-dark">
-            <Star className="h-5 w-5 text-gold" />
+            <Star className="h-5 w-5 text-gold" aria-hidden="true" />
             Uitgelichte bronnen
           </h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -103,10 +103,11 @@ export default async function KennisbankPage() {
                 rel="noopener noreferrer"
                 className="group flex items-start gap-3 rounded-lg border border-gold bg-white p-4 transition-all hover:shadow-md"
               >
-                <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold" />
+                <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold" aria-hidden="true" />
                 <div>
                   <h3 className="font-serif font-semibold text-text group-hover:text-primary">
                     {link.title}
+                    <span className="sr-only">(opent in nieuw venster)</span>
                   </h3>
                   {link.description && (
                     <p className="mt-1 font-serif text-sm text-text-light">
@@ -150,10 +151,11 @@ export default async function KennisbankPage() {
                   rel="noopener noreferrer"
                   className="group flex items-start gap-3 rounded-md border border-border bg-white p-4 transition-all hover:border-primary/30 hover:shadow-sm"
                 >
-                  <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 text-text-light group-hover:text-primary" />
+                  <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 text-text-light group-hover:text-primary" aria-hidden="true" />
                   <div>
                     <h3 className="font-serif font-medium text-text group-hover:text-primary">
                       {link.title}
+                      <span className="sr-only">(opent in nieuw venster)</span>
                     </h3>
                     {link.description && (
                       <p className="mt-0.5 font-serif text-sm text-text-light">
@@ -173,7 +175,7 @@ export default async function KennisbankPage() {
 
       {/* Table of contents sidebar-like navigation */}
       {categories.length > 0 && (
-        <nav className="mt-12 rounded-lg border border-border bg-white p-6">
+        <nav aria-label="Categorieën" className="mt-12 rounded-lg border border-border bg-white p-6">
           <h3 className="font-serif text-sm font-semibold uppercase tracking-wide text-text-light">
             Categorieën
           </h3>

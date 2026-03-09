@@ -70,7 +70,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                 role: string;
                 photo?: { asset: { _ref: string } };
               }) => (
-                <div
+                <article
                   key={member._id}
                   className="rounded-lg border border-border bg-white p-6 text-center"
                 >
@@ -89,7 +89,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                   <p className="font-serif text-sm text-text-light">
                     {member.role}
                   </p>
-                </div>
+                </article>
               ),
             )}
           </div>
@@ -133,7 +133,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                 image?: { asset: { _ref: string } };
                 description?: Parameters<typeof PortableText>[0]["value"];
               }) => (
-                <div
+                <article
                   key={m._id}
                   className="overflow-hidden rounded-lg border border-border bg-white"
                 >
@@ -161,7 +161,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                       </div>
                     )}
                   </div>
-                </div>
+                </article>
               ),
             )}
           </div>
@@ -205,7 +205,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                 description?: string;
                 coverImage?: { asset: { _ref: string } };
               }) => (
-                <div
+                <article
                   key={pub._id}
                   className="rounded-lg border border-border bg-white p-6"
                 >
@@ -232,7 +232,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                       {pub.description}
                     </p>
                   )}
-                </div>
+                </article>
               ),
             )}
           </div>

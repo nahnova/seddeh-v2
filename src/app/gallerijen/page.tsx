@@ -27,7 +27,7 @@ export default async function GallerijenPage() {
         </p>
       )}
 
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <section aria-label="Fotogalerijen" className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {galleries.map(
           (gallery: {
             _id: string;
@@ -75,7 +75,7 @@ export default async function GallerijenPage() {
             </Link>
           ),
         )}
-      </div>
+      </section>
     </div>
   );
 }

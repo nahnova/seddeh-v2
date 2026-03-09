@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { client } from "@/sanity/client";
+import { siteSettingsQuery } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = {
   title: "Contact",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await client.fetch(siteSettingsQuery);
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="font-serif text-3xl font-bold text-primary-dark sm:text-4xl">
@@ -24,27 +28,42 @@ export default function ContactPage() {
           </p>
 
           <div className="mt-6 space-y-4">
-            <div>
-              <h3 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
-                Adres
-              </h3>
-              <p className="mt-1 font-serif text-text">
-                Stichting Eygelshoven door de Eeuwen Heen
-                <br />
-                Eygelshoven, Kerkrade
-              </p>
-            </div>
-            <div>
-              <h3 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
-                E-mail
-              </h3>
-              <a
-                href="mailto:info@stichting-eygelshovendoordeeeuwenheen.nl"
-                className="mt-1 font-serif text-primary hover:text-primary-dark"
-              >
-                info@stichting-eygelshovendoordeeeuwenheen.nl
-              </a>
-            </div>
+            {settings?.address && (
+              <div>
+                <h2 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
+                  Adres
+                </h2>
+                <p className="mt-1 whitespace-pre-line font-serif text-text">
+                  {settings.address}
+                </p>
+              </div>
+            )}
+            {settings?.contactEmail && (
+              <div>
+                <h2 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
+                  E-mail
+                </h2>
+                <a
+                  href={`mailto:${settings.contactEmail}`}
+                  className="mt-1 font-serif text-primary hover:text-primary-dark"
+                >
+                  {settings.contactEmail}
+                </a>
+              </div>
+            )}
+            {settings?.contactPhone && (
+              <div>
+                <h2 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
+                  Telefoon
+                </h2>
+                <a
+                  href={`tel:${settings.contactPhone}`}
+                  className="mt-1 font-serif text-primary hover:text-primary-dark"
+                >
+                  {settings.contactPhone}
+                </a>
+              </div>
+            )}
           </div>
 
           <div className="mt-8">

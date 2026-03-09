@@ -37,18 +37,18 @@ export default async function AgendaPage() {
           }) => {
             const startDate = new Date(event.date);
             return (
-              <div
+              <article
                 key={event._id}
                 className="flex gap-6 rounded-lg border border-border bg-white p-6"
               >
-                <div className="flex h-16 w-16 flex-shrink-0 flex-col items-center justify-center rounded-lg bg-primary-dark text-white">
+                <time dateTime={event.date} className="flex h-16 w-16 flex-shrink-0 flex-col items-center justify-center rounded-lg bg-primary-dark text-white">
                   <span className="font-sans text-xs uppercase">
                     {startDate.toLocaleDateString("nl-NL", { month: "short" })}
                   </span>
                   <span className="font-serif text-2xl font-bold">
                     {startDate.getDate()}
                   </span>
-                </div>
+                </time>
                 <div className="flex-1">
                   <h2 className="font-serif text-xl font-semibold text-text">
                     {event.title}
@@ -70,7 +70,7 @@ export default async function AgendaPage() {
                     </div>
                   )}
                 </div>
-              </div>
+              </article>
             );
           },
         )}

@@ -94,7 +94,7 @@ export default async function HomePage() {
               href={feature.href}
               className="group rounded-lg border border-border bg-white p-6 transition-all hover:border-gold hover:shadow-md"
             >
-              <feature.icon className="mb-3 h-8 w-8 text-gold" />
+              <feature.icon className="mb-3 h-8 w-8 text-gold" aria-hidden="true" />
               <h3 className="mb-2 font-serif text-lg font-semibold text-primary-dark group-hover:text-primary">
                 {feature.title}
               </h3>
@@ -118,7 +118,7 @@ export default async function HomePage() {
                 href="/nieuws"
                 className="font-sans text-sm text-primary hover:text-primary-dark"
               >
-                Bekijk alles &rarr;
+                Bekijk alle nieuwsberichten<span aria-hidden="true"> &rarr;</span>
               </Link>
             </div>
             <div className="grid gap-6 md:grid-cols-3">
@@ -135,7 +135,7 @@ export default async function HomePage() {
                     href={`/nieuws/${item.slug.current}`}
                     className="group rounded-lg border border-border bg-cream p-6 transition-all hover:border-gold hover:shadow-md"
                   >
-                    <time className="font-sans text-xs text-text-light">
+                    <time dateTime={item.publishedAt} className="font-sans text-xs text-text-light">
                       {new Date(item.publishedAt).toLocaleDateString("nl-NL", {
                         year: "numeric",
                         month: "long",
@@ -170,7 +170,7 @@ export default async function HomePage() {
                 href="/agenda"
                 className="font-sans text-sm text-primary hover:text-primary-dark"
               >
-                Volledige agenda &rarr;
+                Volledige agenda<span aria-hidden="true"> &rarr;</span>
               </Link>
             </div>
             <div className="space-y-4">
@@ -185,7 +185,7 @@ export default async function HomePage() {
                     key={item._id}
                     className="flex items-center gap-6 rounded-lg border border-border bg-white p-4"
                   >
-                    <div className="flex h-14 w-14 flex-shrink-0 flex-col items-center justify-center rounded-md bg-primary-dark text-white">
+                    <time dateTime={item.date} className="flex h-14 w-14 flex-shrink-0 flex-col items-center justify-center rounded-md bg-primary-dark text-white">
                       <span className="font-sans text-xs uppercase">
                         {new Date(item.date).toLocaleDateString("nl-NL", {
                           month: "short",
@@ -194,7 +194,7 @@ export default async function HomePage() {
                       <span className="font-serif text-lg font-bold">
                         {new Date(item.date).getDate()}
                       </span>
-                    </div>
+                    </time>
                     <div>
                       <h3 className="font-serif text-base font-semibold text-text">
                         {item.title}

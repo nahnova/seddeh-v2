@@ -16,16 +16,34 @@ const inter = Inter({
   display: "swap",
 });
 
+const siteTitle = "Stichting Eygelshoven door de Eeuwen Heen";
+const siteDescription =
+  "Heemkundevereniging voor Eygelshoven. Wij verzamelen, bewaren en ontsluiten de rijke historie van ons dorp.";
+const siteUrl = "https://stichting-eygelshovendoordeeeuwenheen.nl";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Stichting Eygelshoven door de Eeuwen Heen",
-    template: "%s | Stichting Eygelshoven door de Eeuwen Heen",
+    default: siteTitle,
+    template: `%s | ${siteTitle}`,
   },
-  description:
-    "Heemkundevereniging voor Eygelshoven. Wij verzamelen, bewaren en ontsluiten de rijke historie van ons dorp.",
+  description: siteDescription,
   icons: {
     icon: "/wapen.png",
     apple: "/wapen.png",
+  },
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
+    siteName: siteTitle,
+    type: "website",
+    locale: "nl_NL",
+  },
+  twitter: {
+    card: "summary",
+    title: siteTitle,
+    description: siteDescription,
   },
 };
 
@@ -39,8 +57,16 @@ export default function RootLayout({
       <body
         className={`${ebGaramond.variable} ${inter.variable} antialiased`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
+        >
+          Direct naar inhoud
+        </a>
         <Header />
-        <main className="min-h-screen">{children}</main>
+        <main id="main-content" className="min-h-screen">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

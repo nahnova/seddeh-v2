@@ -46,7 +46,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
       </Link>
 
       <article className="mt-6">
-        <time className="font-sans text-sm text-text-light">
+        <time dateTime={article.publishedAt} className="font-sans text-sm text-text-light">
           {new Date(article.publishedAt).toLocaleDateString("nl-NL", {
             year: "numeric",
             month: "long",

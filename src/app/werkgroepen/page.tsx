@@ -38,7 +38,7 @@ export default async function WerkgroepenPage() {
             image?: { asset: { _ref: string } };
             members?: string[];
           }) => (
-            <div
+            <article
               key={wg._id}
               className="overflow-hidden rounded-lg border border-border bg-white md:flex"
             >
@@ -62,16 +62,16 @@ export default async function WerkgroepenPage() {
                 )}
                 {wg.members && wg.members.length > 0 && (
                   <div className="mt-4">
-                    <h4 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
+                    <h3 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
                       Leden
-                    </h4>
+                    </h3>
                     <p className="mt-1 font-serif text-sm text-text">
                       {wg.members.join(", ")}
                     </p>
                   </div>
                 )}
               </div>
-            </div>
+            </article>
           ),
         )}
       </div>

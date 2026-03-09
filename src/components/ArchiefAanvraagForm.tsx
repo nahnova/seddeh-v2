@@ -46,7 +46,7 @@ export function ArchiefAanvraagForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-lg border border-green-200 bg-green-50 p-6">
+      <div role="status" aria-live="polite" className="rounded-lg border border-green-200 bg-green-50 p-6">
         <h3 className="font-serif text-lg font-semibold text-green-800">
           Aanvraag verzonden
         </h3>
@@ -73,6 +73,7 @@ export function ArchiefAanvraagForm() {
             id="name"
             name="name"
             required
+            aria-required="true"
             className="mt-1 block w-full rounded-md border border-border bg-white px-3 py-2 font-serif text-text shadow-sm focus:border-primary focus:ring-1 focus:ring-primary"
           />
         </div>
@@ -88,6 +89,7 @@ export function ArchiefAanvraagForm() {
             id="email"
             name="email"
             required
+            aria-required="true"
             className="mt-1 block w-full rounded-md border border-border bg-white px-3 py-2 font-serif text-text shadow-sm focus:border-primary focus:ring-1 focus:ring-primary"
           />
         </div>
@@ -136,6 +138,7 @@ export function ArchiefAanvraagForm() {
           id="subject"
           name="subject"
           required
+          aria-required="true"
           placeholder="Bijv. familiegeschiedenis, kadaster, specifieke periode..."
           className="mt-1 block w-full rounded-md border border-border bg-white px-3 py-2 font-serif text-text shadow-sm placeholder:text-text-light/50 focus:border-primary focus:ring-1 focus:ring-primary"
         />
@@ -152,6 +155,7 @@ export function ArchiefAanvraagForm() {
           id="description"
           name="description"
           required
+          aria-required="true"
           rows={5}
           placeholder="Beschrijf zo specifiek mogelijk welke stukken of informatie u zoekt..."
           className="mt-1 block w-full rounded-md border border-border bg-white px-3 py-2 font-serif text-text shadow-sm placeholder:text-text-light/50 focus:border-primary focus:ring-1 focus:ring-primary"
@@ -159,7 +163,7 @@ export function ArchiefAanvraagForm() {
       </div>
 
       {status === "error" && (
-        <div className="rounded-md border border-red-200 bg-red-50 p-3">
+        <div role="alert" aria-live="assertive" className="rounded-md border border-red-200 bg-red-50 p-3">
           <p className="font-serif text-sm text-red-700">{errorMessage}</p>
         </div>
       )}
@@ -167,6 +171,7 @@ export function ArchiefAanvraagForm() {
       <button
         type="submit"
         disabled={status === "loading"}
+        aria-busy={status === "loading"}
         className="rounded-md bg-primary px-6 py-3 font-sans text-sm font-medium text-white transition-colors hover:bg-primary-dark disabled:opacity-50"
       >
         {status === "loading" ? "Verzenden..." : "Aanvraag Indienen"}
