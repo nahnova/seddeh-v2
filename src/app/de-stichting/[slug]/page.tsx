@@ -11,6 +11,7 @@ import { PortableText } from "@/components/PortableText";
 import { urlFor } from "@/sanity/image";
 import { PageHeading } from "@/components/PageHeading";
 import Image from "next/image";
+import { Navigation } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -149,6 +150,17 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                       <div className="mt-3">
                         <PortableText value={m.description} />
                       </div>
+                    )}
+                    {m.location && (
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(m.location + ", Eygelshoven")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-flex items-center gap-2 rounded-sm border-2 border-gold bg-cream-dark px-4 py-2 font-serif text-sm font-semibold text-primary-dark transition-colors hover:bg-gold hover:text-white"
+                      >
+                        <Navigation className="h-4 w-4" aria-hidden="true" />
+                        Navigeer hierheen
+                      </a>
                     )}
                   </div>
                 </article>
