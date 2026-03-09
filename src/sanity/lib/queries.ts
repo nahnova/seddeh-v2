@@ -108,6 +108,14 @@ export const allMonumentsQuery = groq`*[_type == "monument"]{
   year
 }`;
 
+export const allMembersQuery = groq`*[_type == "member"] | order(order asc){
+  _id,
+  name,
+  role,
+  bio,
+  photo
+}`;
+
 export const allPublicationsQuery = groq`*[_type == "publication"]{
   _id,
   title,

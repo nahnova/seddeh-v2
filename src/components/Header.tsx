@@ -25,6 +25,7 @@ const navigation = [
   },
   { name: "Nieuws", href: "/nieuws" },
   { name: "Werkgroepen", href: "/werkgroepen" },
+  { name: "Leden", href: "/leden" },
   { name: "Gallerijen", href: "/gallerijen" },
   { name: "Agenda", href: "/agenda" },
   { name: "Kennisbank", href: "/kennisbank" },
