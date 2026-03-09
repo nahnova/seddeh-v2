@@ -6,6 +6,7 @@ import {
   allKennisbankCategoriesQuery,
 } from "@/sanity/lib/queries";
 import { ExternalLink, Star } from "lucide-react";
+import { PageHeading } from "@/components/PageHeading";
 
 export const metadata: Metadata = {
   title: "Kennisbank",
@@ -46,31 +47,22 @@ export default async function KennisbankPage() {
       .catch(() => []),
   ]);
 
-  // Group links by category
   const linksByCategory = categories.map((cat) => ({
     ...cat,
     links: links.filter((link) => link.category?._id === cat._id),
   }));
 
-  // Featured links
   const featuredLinks = links.filter((link) => link.featured);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="max-w-3xl">
-        <h1 className="font-serif text-3xl font-bold text-primary-dark sm:text-4xl">
-          Kennisbank
-        </h1>
-        <div className="mt-2 h-1 w-16 bg-gold" />
-        <p className="mt-4 font-serif text-lg text-text-light">
-          Een verzameling publieke bronnen voor genealogisch en historisch
-          onderzoek over Eygelshoven, Limburg en omstreken. Deze links zijn
-          vrij toegankelijk.
-        </p>
-      </div>
+      <PageHeading
+        title="Kennisbank"
+        description="Een verzameling publieke bronnen voor genealogisch en historisch onderzoek over Eygelshoven, Limburg en omstreken. Deze links zijn vrij toegankelijk."
+      />
 
       {/* Archive CTA */}
-      <div className="mt-8 rounded-lg border border-gold bg-cream-dark p-6">
+      <div className="rounded-sm border border-gold/50 bg-cream-dark p-6">
         <h2 className="font-serif text-lg font-semibold text-primary-dark">
           Op zoek naar meer?
         </h2>
@@ -81,7 +73,7 @@ export default async function KennisbankPage() {
         </p>
         <Link
           href="/archief-aanvraag"
-          className="mt-3 inline-block rounded-md bg-primary px-4 py-2 font-sans text-sm font-medium text-white transition-colors hover:bg-primary-dark"
+          className="mt-3 inline-block rounded-sm border-2 border-gold bg-gold px-5 py-2 font-serif text-sm font-semibold text-primary-dark transition-colors hover:border-gold-light hover:bg-gold-light"
         >
           Archief Aanvragen
         </Link>
@@ -89,23 +81,29 @@ export default async function KennisbankPage() {
 
       {/* Featured links */}
       {featuredLinks.length > 0 && (
-        <section className="mt-10">
-          <h2 className="flex items-center gap-2 font-serif text-xl font-semibold text-primary-dark">
+        <section className="mt-12">
+          <div className="flex items-center gap-2">
             <Star className="h-5 w-5 text-gold" aria-hidden="true" />
-            Uitgelichte bronnen
-          </h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <h2 className="font-serif text-xl font-semibold text-primary-dark">
+              Uitgelichte bronnen
+            </h2>
+          </div>
+          <div className="mt-3 flex items-center gap-3">
+            <div className="h-0.5 w-12 bg-gold" />
+            <div className="h-0.5 w-3 bg-gold/40" />
+          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featuredLinks.map((link) => (
               <a
                 key={link._id}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-start gap-3 rounded-lg border border-gold bg-white p-4 transition-all hover:shadow-md"
+                className="group flex items-start gap-3 rounded-sm border border-gold/50 bg-white p-5 transition-all hover:border-gold hover:shadow-md"
               >
                 <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold" aria-hidden="true" />
                 <div>
-                  <h3 className="font-serif font-semibold text-text group-hover:text-primary">
+                  <h3 className="font-serif font-semibold text-text transition-colors group-hover:text-primary">
                     {link.title}
                     <span className="sr-only">(opent in nieuw venster)</span>
                   </h3>
@@ -114,7 +112,7 @@ export default async function KennisbankPage() {
                       {link.description}
                     </p>
                   )}
-                  <span className="mt-1 inline-block font-sans text-xs text-primary">
+                  <span className="mt-1 inline-block font-sans text-xs font-medium uppercase tracking-wider text-primary">
                     {link.category?.name}
                   </span>
                 </div>
@@ -125,7 +123,7 @@ export default async function KennisbankPage() {
       )}
 
       {/* Links by category */}
-      <div className="mt-12 space-y-10">
+      <div className="mt-14 space-y-12">
         {linksByCategory.map((cat) => (
           <section key={cat._id} id={cat.slug.current}>
             <h2 className="font-serif text-xl font-semibold text-primary-dark">
@@ -136,24 +134,27 @@ export default async function KennisbankPage() {
                 {cat.description}
               </p>
             )}
-            <div className="mt-4 h-px bg-border" />
+            <div className="mt-3 flex items-center gap-3">
+              <div className="h-0.5 w-8 bg-border" />
+              <div className="h-0.5 flex-1 bg-border/50" />
+            </div>
             {cat.links.length === 0 && (
               <p className="mt-3 font-serif text-sm text-text-light">
                 Nog geen links in deze categorie.
               </p>
             )}
-            <div className="mt-3 space-y-3">
+            <div className="mt-4 space-y-3">
               {cat.links.map((link) => (
                 <a
                   key={link._id}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-start gap-3 rounded-md border border-border bg-white p-4 transition-all hover:border-primary/30 hover:shadow-sm"
+                  className="group flex items-start gap-3 rounded-sm border border-border bg-white p-4 transition-all hover:border-gold hover:shadow-sm"
                 >
-                  <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 text-text-light group-hover:text-primary" aria-hidden="true" />
+                  <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 text-text-light transition-colors group-hover:text-gold" aria-hidden="true" />
                   <div>
-                    <h3 className="font-serif font-medium text-text group-hover:text-primary">
+                    <h3 className="font-serif font-medium text-text transition-colors group-hover:text-primary">
                       {link.title}
                       <span className="sr-only">(opent in nieuw venster)</span>
                     </h3>
@@ -173,10 +174,10 @@ export default async function KennisbankPage() {
         ))}
       </div>
 
-      {/* Table of contents sidebar-like navigation */}
+      {/* Category navigation */}
       {categories.length > 0 && (
-        <nav aria-label="Categorieën" className="mt-12 rounded-lg border border-border bg-white p-6">
-          <h3 className="font-serif text-sm font-semibold uppercase tracking-wide text-text-light">
+        <nav aria-label="Categorieën" className="mt-14 rounded-sm border border-border bg-white p-6">
+          <h3 className="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-light">
             Categorieën
           </h3>
           <ul className="mt-3 space-y-2">
@@ -184,7 +185,7 @@ export default async function KennisbankPage() {
               <li key={cat._id}>
                 <a
                   href={`#${cat.slug.current}`}
-                  className="font-serif text-sm text-primary hover:text-primary-dark"
+                  className="font-serif text-sm text-primary transition-colors hover:text-gold"
                 >
                   {cat.name}
                 </a>

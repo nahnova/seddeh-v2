@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/client";
 import { newsBySlugQuery } from "@/sanity/lib/queries";
 import { PortableText } from "@/components/PortableText";
 import { urlFor } from "@/sanity/image";
+import { PageHeading } from "@/components/PageHeading";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -38,25 +38,18 @@ export default async function NewsArticlePage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <Link
-        href="/nieuws"
-        className="font-sans text-sm text-primary hover:text-primary-dark"
-      >
-        &larr; Terug naar nieuws
-      </Link>
-
-      <article className="mt-6">
-        <time dateTime={article.publishedAt} className="font-sans text-sm text-text-light">
+      <article>
+        <time
+          dateTime={article.publishedAt}
+          className="font-sans text-xs font-medium uppercase tracking-wider text-text-light"
+        >
           {new Date(article.publishedAt).toLocaleDateString("nl-NL", {
             year: "numeric",
             month: "long",
             day: "numeric",
           })}
         </time>
-        <h1 className="mt-2 font-serif text-3xl font-bold text-primary-dark">
-          {article.title}
-        </h1>
-        <div className="mt-2 h-1 w-16 bg-gold" />
+        <PageHeading title={article.title} backHref="/nieuws" backLabel="Terug naar nieuws" />
 
         {article.mainImage && (
           <Image
@@ -64,7 +57,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
             alt={article.title}
             width={800}
             height={400}
-            className="mt-6 rounded-lg object-cover"
+            className="rounded-sm object-cover"
           />
         )}
 

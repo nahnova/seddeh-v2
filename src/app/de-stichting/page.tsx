@@ -3,6 +3,7 @@ import Link from "next/link";
 import { client } from "@/sanity/client";
 import { pageBySlugQuery } from "@/sanity/lib/queries";
 import { PortableText } from "@/components/PortableText";
+import { PageHeading } from "@/components/PageHeading";
 
 export const metadata: Metadata = {
   title: "De Stichting",
@@ -55,19 +56,16 @@ export default async function DeStichtingPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="font-serif text-3xl font-bold text-primary-dark sm:text-4xl">
-        De Stichting
-      </h1>
-      <div className="mt-2 h-1 w-16 bg-gold" />
+      <PageHeading title="De Stichting" />
 
       {page?.body && (
-        <div className="mt-8 max-w-3xl">
+        <div className="max-w-3xl">
           <PortableText value={page.body} />
         </div>
       )}
 
       {!page?.body && (
-        <p className="mt-8 max-w-3xl font-serif text-lg leading-relaxed text-text-light">
+        <p className="max-w-3xl font-serif text-lg leading-relaxed text-text-light">
           Stichting Eygelshoven door de Eeuwen Heen fungeert als
           heemkundevereniging voor Eygelshoven. Opgericht op 30 november 1981
           ter gelegenheid van het 850-jarig bestaan van Eygelshoven, zetten wij
@@ -81,9 +79,10 @@ export default async function DeStichtingPage() {
           <Link
             key={sub.slug}
             href={`/de-stichting/${sub.slug}`}
-            className="group rounded-lg border border-border bg-white p-6 transition-all hover:border-gold hover:shadow-md"
+            className="group relative overflow-hidden rounded-sm border border-border bg-white p-6 transition-all hover:border-gold hover:shadow-md"
           >
-            <h2 className="font-serif text-lg font-semibold text-text group-hover:text-primary">
+            <div className="absolute inset-x-0 top-0 h-0.5 bg-gold opacity-0 transition-opacity group-hover:opacity-100" />
+            <h2 className="font-serif text-lg font-semibold text-text transition-colors group-hover:text-primary">
               {sub.title}
             </h2>
             <p className="mt-1 font-serif text-sm text-text-light">

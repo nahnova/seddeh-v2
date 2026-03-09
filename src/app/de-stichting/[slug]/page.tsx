@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { client } from "@/sanity/client";
 import {
   pageBySlugQuery,
@@ -10,6 +9,7 @@ import {
 } from "@/sanity/lib/queries";
 import { PortableText } from "@/components/PortableText";
 import { urlFor } from "@/sanity/image";
+import { PageHeading } from "@/components/PageHeading";
 import Image from "next/image";
 
 interface PageProps {
@@ -37,32 +37,27 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
     .fetch(pageBySlugQuery, { slug })
     .catch(() => null);
 
-  // Special page: Het Bestuur - show board members
+  // Special page: Het Bestuur
   if (slug === "het-bestuur") {
     const members = await client
       .fetch(allBoardMembersQuery)
       .catch(() => []);
     return (
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <Link
-          href="/de-stichting"
-          className="font-sans text-sm text-primary hover:text-primary-dark"
-        >
-          &larr; De Stichting
-        </Link>
-        <h1 className="mt-4 font-serif text-3xl font-bold text-primary-dark">
-          Het Bestuur
-        </h1>
-        <div className="mt-2 h-1 w-16 bg-gold" />
+        <PageHeading
+          title="Het Bestuur"
+          backHref="/de-stichting"
+          backLabel="De Stichting"
+        />
 
         {page?.body && (
-          <div className="mt-8 max-w-3xl">
+          <div className="mb-10 max-w-3xl">
             <PortableText value={page.body} />
           </div>
         )}
 
         {members.length > 0 && (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {members.map(
               (member: {
                 _id: string;
@@ -72,7 +67,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
               }) => (
                 <article
                   key={member._id}
-                  className="rounded-lg border border-border bg-white p-6 text-center"
+                  className="rounded-sm border border-border bg-white p-6 text-center"
                 >
                   {member.photo && (
                     <Image
@@ -105,25 +100,20 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
       .catch(() => []);
     return (
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <Link
-          href="/de-stichting"
-          className="font-sans text-sm text-primary hover:text-primary-dark"
-        >
-          &larr; De Stichting
-        </Link>
-        <h1 className="mt-4 font-serif text-3xl font-bold text-primary-dark">
-          Monumenten
-        </h1>
-        <div className="mt-2 h-1 w-16 bg-gold" />
+        <PageHeading
+          title="Monumenten"
+          backHref="/de-stichting"
+          backLabel="De Stichting"
+        />
 
         {page?.body && (
-          <div className="mt-8 max-w-3xl">
+          <div className="mb-10 max-w-3xl">
             <PortableText value={page.body} />
           </div>
         )}
 
         {monuments.length > 0 && (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
             {monuments.map(
               (m: {
                 _id: string;
@@ -135,7 +125,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
               }) => (
                 <article
                   key={m._id}
-                  className="overflow-hidden rounded-lg border border-border bg-white"
+                  className="overflow-hidden rounded-sm border border-border bg-white transition-colors hover:border-gold"
                 >
                   {m.image && (
                     <Image
@@ -151,7 +141,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                       {m.name}
                     </h3>
                     {(m.location || m.year) && (
-                      <p className="mt-1 font-sans text-sm text-text-light">
+                      <p className="mt-1 font-sans text-xs font-medium uppercase tracking-wider text-text-light">
                         {[m.location, m.year].filter(Boolean).join(" — ")}
                       </p>
                     )}
@@ -177,25 +167,20 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
       .catch(() => []);
     return (
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <Link
-          href="/de-stichting"
-          className="font-sans text-sm text-primary hover:text-primary-dark"
-        >
-          &larr; De Stichting
-        </Link>
-        <h1 className="mt-4 font-serif text-3xl font-bold text-primary-dark">
-          Publicaties
-        </h1>
-        <div className="mt-2 h-1 w-16 bg-gold" />
+        <PageHeading
+          title="Publicaties"
+          backHref="/de-stichting"
+          backLabel="De Stichting"
+        />
 
         {page?.body && (
-          <div className="mt-8 max-w-3xl">
+          <div className="mb-10 max-w-3xl">
             <PortableText value={page.body} />
           </div>
         )}
 
         {publications.length > 0 && (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {publications.map(
               (pub: {
                 _id: string;
@@ -207,7 +192,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
               }) => (
                 <article
                   key={pub._id}
-                  className="rounded-lg border border-border bg-white p-6"
+                  className="rounded-sm border border-border bg-white p-6 transition-colors hover:border-gold"
                 >
                   {pub.coverImage && (
                     <Image
@@ -215,7 +200,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                       alt={pub.title}
                       width={300}
                       height={400}
-                      className="mb-4 rounded object-cover"
+                      className="mb-4 rounded-sm object-cover"
                     />
                   )}
                   <h3 className="font-serif text-lg font-semibold text-text">
@@ -248,19 +233,14 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <Link
-        href="/de-stichting"
-        className="font-sans text-sm text-primary hover:text-primary-dark"
-      >
-        &larr; De Stichting
-      </Link>
-      <h1 className="mt-4 font-serif text-3xl font-bold text-primary-dark">
-        {page.title}
-      </h1>
-      <div className="mt-2 h-1 w-16 bg-gold" />
+      <PageHeading
+        title={page.title}
+        backHref="/de-stichting"
+        backLabel="De Stichting"
+      />
 
       {page.body && (
-        <div className="mt-8 max-w-3xl">
+        <div className="max-w-3xl">
           <PortableText value={page.body} />
         </div>
       )}

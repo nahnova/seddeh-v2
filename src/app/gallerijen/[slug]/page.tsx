@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/client";
 import { galleryBySlugQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/image";
+import { PageHeading } from "@/components/PageHeading";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -37,26 +37,15 @@ export default async function GalleryPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <Link
-        href="/gallerijen"
-        className="font-sans text-sm text-primary hover:text-primary-dark"
-      >
-        &larr; Terug naar gallerijen
-      </Link>
-
-      <h1 className="mt-4 font-serif text-3xl font-bold text-primary-dark">
-        {gallery.title}
-      </h1>
-      <div className="mt-2 h-1 w-16 bg-gold" />
-
-      {gallery.description && (
-        <p className="mt-4 max-w-2xl font-serif text-text-light">
-          {gallery.description}
-        </p>
-      )}
+      <PageHeading
+        title={gallery.title}
+        backHref="/gallerijen"
+        backLabel="Terug naar gallerijen"
+        description={gallery.description}
+      />
 
       {gallery.images && gallery.images.length > 0 && (
-        <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3">
+        <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
           {gallery.images.map(
             (
               img: {
@@ -73,10 +62,10 @@ export default async function GalleryPage({ params }: PageProps) {
                   alt={img.alt || gallery.title}
                   width={600}
                   height={400}
-                  className="w-full rounded-lg"
+                  className="w-full rounded-sm"
                 />
                 {(img.caption || img.year) && (
-                  <figcaption className="mt-1 px-1 font-serif text-sm text-text-light">
+                  <figcaption className="mt-1.5 px-1 font-serif text-sm text-text-light">
                     {img.caption}
                     {img.caption && img.year && " — "}
                     {img.year}

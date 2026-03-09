@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { client } from "@/sanity/client";
 import { siteSettingsQuery } from "@/sanity/lib/queries";
+import { PageHeading } from "@/components/PageHeading";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -12,12 +13,9 @@ export default async function ContactPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="font-serif text-3xl font-bold text-primary-dark sm:text-4xl">
-        Contact
-      </h1>
-      <div className="mt-2 h-1 w-16 bg-gold" />
+      <PageHeading title="Contact" />
 
-      <div className="mt-8 grid gap-8 md:grid-cols-2">
+      <div className="grid gap-8 md:grid-cols-2">
         <div>
           <h2 className="font-serif text-xl font-semibold text-text">
             Neem contact met ons op
@@ -27,12 +25,12 @@ export default async function ContactPage() {
             historisch archief? Neem gerust contact met ons op.
           </p>
 
-          <div className="mt-6 space-y-4">
+          <div className="mt-6 space-y-5">
             {settings?.address && (
               <div>
-                <h2 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
+                <h3 className="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-light">
                   Adres
-                </h2>
+                </h3>
                 <p className="mt-1 whitespace-pre-line font-serif text-text">
                   {settings.address}
                 </p>
@@ -40,12 +38,12 @@ export default async function ContactPage() {
             )}
             {settings?.contactEmail && (
               <div>
-                <h2 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
+                <h3 className="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-light">
                   E-mail
-                </h2>
+                </h3>
                 <a
                   href={`mailto:${settings.contactEmail}`}
-                  className="mt-1 font-serif text-primary hover:text-primary-dark"
+                  className="mt-1 inline-block font-serif text-primary transition-colors hover:text-gold"
                 >
                   {settings.contactEmail}
                 </a>
@@ -53,12 +51,12 @@ export default async function ContactPage() {
             )}
             {settings?.contactPhone && (
               <div>
-                <h2 className="font-sans text-xs font-medium uppercase tracking-wide text-text-light">
+                <h3 className="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-light">
                   Telefoon
-                </h2>
+                </h3>
                 <a
                   href={`tel:${settings.contactPhone}`}
-                  className="mt-1 font-serif text-primary hover:text-primary-dark"
+                  className="mt-1 inline-block font-serif text-primary transition-colors hover:text-gold"
                 >
                   {settings.contactPhone}
                 </a>
@@ -69,7 +67,7 @@ export default async function ContactPage() {
           <div className="mt-8">
             <Link
               href="/contact/schenking"
-              className="inline-block rounded-md border border-gold bg-cream-dark px-4 py-2 font-sans text-sm font-medium text-primary-dark transition-colors hover:bg-gold hover:text-white"
+              className="inline-block rounded-sm border-2 border-gold bg-cream-dark px-5 py-2 font-serif text-sm font-semibold text-primary-dark transition-colors hover:bg-gold hover:text-white"
             >
               Schenking doen
             </Link>
@@ -77,7 +75,7 @@ export default async function ContactPage() {
         </div>
 
         {/* Archive request CTA */}
-        <div className="rounded-lg border border-gold bg-cream-dark p-6">
+        <div className="rounded-sm border border-gold/50 bg-cream-dark p-6">
           <h2 className="font-serif text-xl font-semibold text-primary-dark">
             Archief inzien
           </h2>
@@ -88,7 +86,7 @@ export default async function ContactPage() {
           </p>
           <Link
             href="/archief-aanvraag"
-            className="mt-4 inline-block rounded-md bg-primary px-4 py-2 font-sans text-sm font-medium text-white transition-colors hover:bg-primary-dark"
+            className="mt-4 inline-block rounded-sm border-2 border-gold bg-gold px-5 py-2 font-serif text-sm font-semibold text-primary-dark transition-colors hover:border-gold-light hover:bg-gold-light"
           >
             Aanvraag indienen
           </Link>

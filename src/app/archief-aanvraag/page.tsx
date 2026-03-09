@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ArchiefAanvraagForm } from "@/components/ArchiefAanvraagForm";
+import { PageHeading } from "@/components/PageHeading";
 
 export const metadata: Metadata = {
   title: "Archief Aanvraag",
@@ -10,12 +11,9 @@ export const metadata: Metadata = {
 export default function ArchiefAanvraagPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <h1 className="font-serif text-3xl font-bold text-primary-dark">
-        Archief Aanvraag
-      </h1>
-      <div className="mt-2 h-1 w-16 bg-gold" />
+      <PageHeading title="Archief Aanvraag" />
 
-      <div role="alert" className="mt-6 rounded-lg border border-amber-400 bg-amber-50 p-5">
+      <div role="alert" className="rounded-sm border border-amber-400 bg-amber-50 p-5">
         <p className="font-serif text-sm font-semibold text-amber-800">
           Deze functie is binnenkort beschikbaar.
         </p>
@@ -39,7 +37,7 @@ export default function ArchiefAanvraagPage() {
         </p>
       </div>
 
-      <div className="mt-6 rounded-lg border border-gold bg-cream-dark p-6">
+      <div className="mt-6 rounded-sm border border-gold/50 bg-cream-dark p-6">
         <h2 className="font-serif text-lg font-semibold text-primary-dark">
           Hoe werkt het?
         </h2>
