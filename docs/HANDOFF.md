@@ -1,155 +1,95 @@
-# SEDDEH v2 — Handoff Document
+# SEDDEH v2 — Handoff
 
-> Laatst bijgewerkt: 5 maart 2026
+> Laatst bijgewerkt: 17 maart 2026
 
-## Status: Basisopzet Compleet
+---
 
-De volledige website structuur staat, alle pagina's zijn aangemaakt, en de eerste content is geïmporteerd in Sanity CMS.
+## Projectoverzicht
+
+| Item | Waarde |
+|------|--------|
+| Repo | `nahnova/seddeh-v2` |
+| Live | `https://seddeh-v2.vercel.app` (Vercel, team `nahnova-org`) |
+| Sanity | Project `sglv0dfa`, dataset `production`, workspace `seddeh` |
+| Studio | `/studio` op de live URL |
+| Stack | Next.js 16 + Sanity CMS + Tailwind v4 + Resend |
 
 ---
 
 ## Wat is gedaan
 
-### Infrastructuur
-- [x] Next.js 15 project aangemaakt (`/Users/noaheutz/Developer/seddeh-v2`)
-- [x] GitHub repo: `nahnova/seddeh-v2`
-- [x] Sanity CMS project (ID: `sglv0dfa`, dataset: `production`, org: NahNova)
-- [x] Project-specifiek editor token aangemaakt
-- [x] CORS origin `localhost:3000` geconfigureerd
-- [x] 12 Sanity schema's (content types) gedefinieerd
-- [x] Sanity Studio embedded op `/studio`
+### Pagina's & Routes
+- `/` — Homepage met hero, features, nieuws, agenda, CTA
+- `/de-stichting` — Overzicht + 7 subpagina's (dynamisch via `[slug]`)
+- `/nieuws` + `/nieuws/[slug]` — Nieuwsoverzicht + detail
+- `/werkgroepen` — Genummerde secties, quick-nav, leden-pills
+- `/leden` — Ledenprofielen met placeholder icons + CTA naar lid-worden
+- `/lid-worden` — Aanmeldformulier + voordelen (mailt via Resend)
+- `/gallerijen` + `/gallerijen/[slug]` — Galerij met fotobescherming + logo watermerk
+- `/agenda` — Evenementen (automatisch gefilterd op `date >= now()`)
+- `/kennisbank` — Gecategoriseerde links
+- `/contact` + `/contact/schenking` — Contactgegevens + donatiepagina
+- `/archief-aanvraag` — Aanvraagformulier (mailt via Resend)
 
-### Pagina's (alle routes functioneel)
-- [x] `/` — Homepage met hero, features, nieuws, agenda, CTA
-- [x] `/de-stichting` — Overzichtspagina met 7 subpagina links
-- [x] `/de-stichting/[slug]` — Dynamische subpagina's (Bestuur, Doelstellingen, etc.)
-- [x] `/nieuws` + `/nieuws/[slug]` — Nieuwsoverzicht + detailpagina
-- [x] `/werkgroepen` — Werkgroepen overzicht
-- [x] `/gallerijen` + `/gallerijen/[slug]` — Galerij overzicht + masonry layout
-- [x] `/agenda` — Evenementen
-- [x] `/kennisbank` — Gecategoriseerde links met featured sectie + archief CTA
-- [x] `/archief-aanvraag` — Formulier met Resend e-mail integratie
-- [x] `/contact` — Contactgegevens + archief CTA
-- [x] `/contact/schenking` — Donatiepagina
+### Features
+- **Zoekbalk** — `⌘K` / klik opent command palette met fuzzy search over alle pagina's + dynamische content
+- **Fotobescherming** — ProtectedImage: rechtermuisknop blokkering, drag-preventie, transparante overlay, logo watermerk
+- **SEO** — JSON-LD structured data (NGO), keywords meta, canonical URL, sitemap met statische + dynamische routes
+- **E-mail** — Resend integratie voor archief-aanvraag en lid-worden formulieren
 
-### Content geïmporteerd in Sanity (via seed script)
-- [x] Site instellingen (adres, e-mail, telefoon)
-- [x] 7 pagina's (De Stichting, Laethof, Doelstellingen, Geschiedenis, Wapen, Publicaties, Monumenten)
-- [x] 4 bestuursleden (Joep Prevo, Wim Simons, Maria Brull, Ria Berikoven)
-- [x] 1 publicatie (Memoires van luitenant Henckels)
-- [x] 1 evenement (Boekenbeurs)
-- [x] 5 kennisbank categorieën
-- [x] 19 kennisbank links (AlleLimburgers, WieWasWie, Aezel/Kadaster, etc.)
+### Sanity Content
+- 13 schema's: page, news, werkgroep, gallery, event, kennisbankLink, kennisbankCategory, boardMember, member, monument, siteSettings, publication
+- 5 bestuursleden (incl. Andre Kok)
+- 7 werkgroepen met leden
+- 19 kennisbank links (incl. Anselbode)
+- 1 maquette galerij (wacht op foto's)
 
 ---
 
-## Wat nog gedaan moet worden
+## Wat nog moet gebeuren
 
-### Hoge Prioriteit
+### Wacht op foto's (Pascal)
+Zie `FOTOLIJST-PASCAL.md` voor de volledige checklist.
 
-#### 1. Resend instellen
-- Account aanmaken op https://resend.com
-- API key genereren
-- Toevoegen aan `.env.local`: `RESEND_API_KEY=re_xxxxx`
-- Optioneel: eigen domein verifiëren voor `from` adres (nu `onboarding@resend.dev`)
-- `ARCHIVE_REQUEST_EMAIL` aanpassen naar gewenst ontvangstadres
+| Item | Status |
+|------|--------|
+| Foto's bestuursleden (5 personen) | Wacht op Pascal |
+| Sfeerbeelden werkgroepen (7 stuks) | Wacht op Pascal |
+| Maquette galerij foto's | Wacht op Pascal, galerij staat klaar |
+| Homepage hero foto's/video | Wacht op Pascal |
 
-#### 3. Ontbrekende content van oude site
-De volgende content was niet automatisch te scrapen (dynamisch geladen) en moet **handmatig** worden overgenomen via `/studio`:
+### Technisch
 
-| Content | Status | Actie |
-|---------|--------|-------|
-| Werkgroepen | Leeg | Namen + beschrijvingen toevoegen |
-| Monumenten | Placeholder tekst | Individuele monumenten aanmaken |
-| Galerijen | Leeg | Foto's uploaden + galerijen aanmaken |
-| Nieuwsberichten | Leeg | Bestaande artikelen overnemen |
-| Publicaties | 1 van ? | Overige publicaties + prijzen toevoegen |
-| Bestuursleden foto's | Geen | Foto's uploaden per bestuurslid |
-| Wapen beschrijving | Incompleet | Volledige heraldische beschrijving + afbeelding |
-
-#### 4. Afbeeldingen
-- Logo/wapenschild uploaden in Site Instellingen
-- Hero afbeeldingen voor pagina's toevoegen
-- Foto's van bestuursleden uploaden
-- Galerij foto's van de oude site overnemen
-- Monument foto's toevoegen
-
-### Gemiddelde Prioriteit
-
-#### 5. Contact formulier pagina updaten
-De contact pagina toont nu hardcoded info. Optie:
-- Contactgegevens dynamisch ophalen uit `siteSettings` in Sanity
-- Contactformulier toevoegen (vergelijkbaar met archief aanvraag)
-
-#### 6. Productie CORS origin toevoegen
-Na deployment, voeg het productie-domein toe:
-```bash
-curl -X POST "https://api.sanity.io/v2021-06-07/projects/sglv0dfa/cors" \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{"origin": "https://jouw-domein.nl", "allowCredentials": true}'
-```
-
-#### 7. Vercel deployment
-- `vercel` draaien in project root
-- Environment variables instellen in Vercel dashboard
-- Productie-domein koppelen
-
-#### 8. Boekenbeurs als terugkerend evenement
-De boekenbeurs is elke eerste zaterdag. Momenteel staat er 1 als voorbeeld. Overweeg:
-- Meerdere datums toevoegen
-- Of een "terugkerend" veld aan het event schema toevoegen
-
-### Lage Prioriteit
-
-#### 9. SEO & Social
-- Open Graph images genereren
-- Favicon/wapenschild als site icon
-- sitemap.xml (Next.js kan dit automatisch)
-- robots.txt
-
-#### 10. Zoekfunctionaliteit
-- Optioneel: zoekbalk toevoegen aan kennisbank
-- Optioneel: globale site-zoekfunctie
-
-#### 11. Analytics
-- Vercel Analytics of Plausible/Umami toevoegen
+| Item | Prioriteit | Notities |
+|------|-----------|----------|
+| Custom domein koppelen | Hoog | Wacht tot stichting domein heeft, daarna DNS + Vercel instellen |
+| Productie CORS origin | Hoog | Na domein: toevoegen in Sanity projectinstellingen |
+| Resend domein verifiëren | Gemiddeld | Nu `onboarding@resend.dev`, eigen domein mooier |
+| Homepage hero carousel | Gemiddeld | Wacht op foto's, dan carousel/video bouwen |
+| Analytics | Laag | Vercel Analytics of Plausible overwegen |
 
 ---
 
-## Technische Details
+## Environment Variables
 
-### Environment Variables
 ```
 NEXT_PUBLIC_SANITY_PROJECT_ID=sglv0dfa
 NEXT_PUBLIC_SANITY_DATASET=production
-SANITY_API_READ_TOKEN=<editor token in .env.local>
-RESEND_API_KEY=<nog in te vullen>
-ARCHIVE_REQUEST_EMAIL=info@stichting-eygelshovendoordeeeuwenheen.nl
+SANITY_API_READ_TOKEN=<in .env.local en Vercel>
+RESEND_API_KEY=<in .env.local en Vercel>
+ARCHIVE_REQUEST_EMAIL=info.seddeh@gmail.com
 ```
 
-### Seed Script
-Content opnieuw importeren of updaten:
-```bash
-npx tsx scripts/seed.ts
-```
-Het script gebruikt `createOrReplace` dus is veilig om meerdere keren te draaien.
+---
 
-### Sanity Studio
-Toegankelijk op `/studio` — hier kan alle content worden beheerd:
-- Pagina's bewerken (rich text met afbeeldingen)
-- Nieuws toevoegen
-- Galerijen aanmaken met foto's
-- Kennisbank links beheren
-- Evenementen plannen
-- Bestuursleden bijwerken
+## Key Files
 
-### Key Files
 | Bestand | Doel |
 |---------|------|
 | `src/sanity/schemas/` | Alle CMS content types |
 | `src/sanity/lib/queries.ts` | GROQ queries |
-| `src/components/Header.tsx` | Navigatie (client-side) |
-| `src/app/api/archief-aanvraag/route.ts` | E-mail API route |
-| `scripts/seed.ts` | Database seed script |
+| `src/components/Header.tsx` | Navigatie + SearchPalette |
+| `src/components/ProtectedImage.tsx` | Fotobescherming + watermerk |
+| `src/components/SearchPalette.tsx` | Zoekbalk (⌘K) |
+| `src/app/api/` | API routes (archief-aanvraag, lid-worden, search) |
 | `sanity.config.ts` | Sanity Studio configuratie |

@@ -4,78 +4,93 @@ Nieuwe website voor de heemkundevereniging van Eygelshoven, gebouwd met een mode
 
 ## Tech Stack
 
-- **Framework:** Next.js 15 (App Router)
-- **CMS:** Sanity v3 (embedded studio op `/studio`)
-- **Styling:** Tailwind CSS v4 met heritage-thema (EB Garamond serif)
-- **E-mail:** Resend (archief aanvragen)
-- **Afbeeldingen:** Sanity Asset CDN
-- **Hosting:** Vercel
+- **Framework:** Next.js 16 (App Router, Turbopack)
+- **CMS:** Sanity v5 (embedded studio op `/studio`)
+- **Styling:** Tailwind CSS v4 met heritage-thema (EB Garamond serif, goud accenten)
+- **E-mail:** Resend (archief aanvragen, lid worden)
+- **Afbeeldingen:** Sanity Asset CDN + fotobescherming met logo watermerk
+- **Hosting:** Vercel Pro (team `nahnova-org`)
+- **SEO:** JSON-LD structured data, sitemap, canonical URLs
 
 ## Pagina's
 
 | Route | Beschrijving |
 |-------|-------------|
-| `/` | Homepage |
-| `/de-stichting` | Over de stichting + subpagina's (Bestuur, Doelstellingen, etc.) |
-| `/nieuws` | Nieuwsberichten |
-| `/werkgroepen` | Werkgroepen van de stichting |
-| `/gallerijen` | Fotogalerijen |
-| `/agenda` | Evenementen kalender |
-| `/kennisbank` | Publieke kennisbron met gecategoriseerde links |
+| `/` | Homepage met hero, features, nieuws, agenda |
+| `/de-stichting` | Over de stichting + 7 subpagina's (Bestuur, Monumenten, etc.) |
+| `/nieuws` + `/nieuws/[slug]` | Nieuwsberichten |
+| `/werkgroepen` | Werkgroepen met genummerde secties en quick-nav |
+| `/leden` | Ledenprofielen |
+| `/lid-worden` | Aanmeldformulier om lid te worden |
+| `/gallerijen` + `/gallerijen/[slug]` | Fotogalerijen met beschermde afbeeldingen |
+| `/agenda` | Evenementen (automatisch gefilterd op toekomstige data) |
+| `/kennisbank` | Gecategoriseerde links voor historisch onderzoek |
 | `/archief-aanvraag` | Formulier om archiefstukken aan te vragen |
-| `/contact` | Contactgegevens |
-| `/contact/schenking` | Schenkingen |
+| `/contact` + `/contact/schenking` | Contactgegevens + donatiepagina |
 | `/studio` | Sanity CMS Studio (beheer) |
+
+## Features
+
+- **Zoekbalk** — `⌘K` opent een command palette met fuzzy search over alle pagina's en dynamische content
+- **Fotobescherming** — Rechtermuisknop + drag blokkering, transparante overlay, logo watermerk op galerijtfoto's
+- **E-mail formulieren** — Archief aanvragen en lid worden via Resend
+- **SEO** — JSON-LD (NGO schema), keywords, canonical URL, dynamische sitemap
 
 ## Aan de slag
 
-### 1. Sanity project aanmaken
-
-Ga naar [sanity.io/manage](https://www.sanity.io/manage) en maak een nieuw project aan.
-
-### 2. Environment variables
-
-Kopieer `.env.local.example` naar `.env.local` en vul de waarden in:
+### 1. Environment variables
 
 ```bash
 cp .env.local.example .env.local
 ```
 
-### 3. Installatie
+Vul in:
+```
+NEXT_PUBLIC_SANITY_PROJECT_ID=sglv0dfa
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_READ_TOKEN=<token>
+RESEND_API_KEY=<key>
+ARCHIVE_REQUEST_EMAIL=info.seddeh@gmail.com
+```
+
+### 2. Installatie
 
 ```bash
 yarn install
 ```
 
-### 4. Development
+### 3. Development
 
 ```bash
 yarn dev
 ```
 
-- Website: [http://localhost:3000](http://localhost:3000)
-- CMS Studio: [http://localhost:3000/studio](http://localhost:3000/studio)
+- Website: [localhost:3000](http://localhost:3000)
+- Studio: [localhost:3000/studio](http://localhost:3000/studio)
 
-## Kennisbank
+### 4. Schema deployen
 
-De kennisbank bevat gecategoriseerde links naar publieke bronnen voor genealogisch en historisch onderzoek. Links worden beheerd via het Sanity CMS.
-
-### Initiële categorieën:
-- Genealogie & Stambomen
-- Kadaster & Archieven
-- Regionale Historie
-- Heemkundeverenigingen
-- Overige Websites
-
-## Archief Aanvraag
-
-Het archief van de stichting is niet publiek toegankelijk maar wel op aanvraag. Bezoekers kunnen via het formulier een aanvraag indienen. De aanvraag wordt via Resend gemaild naar de stichting.
+```bash
+npx sanity@latest login
+npx sanity@latest schema deploy
+```
 
 ## Deployment
 
+Automatisch via GitHub → Vercel bij push naar `main`.
+
+Handmatig:
 ```bash
-vercel
+vercel --prod
 ```
+
+## Documentatie
+
+Zie `/docs` voor:
+- `HANDOFF.md` — Status en technische details
+- `FEEDBACK.md` — Feedback tracker
+- `KOSTEN.md` — Kostenoverzicht
+- `FOTOLIJST-PASCAL.md` — Benodigde foto's
 
 ## Licentie
 
