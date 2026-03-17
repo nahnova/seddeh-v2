@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
+import { SearchPalette } from "./SearchPalette";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -177,13 +178,16 @@ export function Header() {
               </ul>
             </nav>
 
-            {/* Desktop CTA */}
-            <Link
-              href="/archief-aanvraag"
-              className="hidden rounded-sm border-2 border-gold bg-gold px-5 py-2 font-serif text-sm font-semibold text-primary-dark transition-colors hover:border-gold-light hover:bg-gold-light md:block"
-            >
-              Archief Aanvragen
-            </Link>
+            {/* Desktop search + CTA */}
+            <div className="hidden items-center gap-2 md:flex">
+              <SearchPalette />
+              <Link
+                href="/archief-aanvraag"
+                className="rounded-sm border-2 border-gold bg-gold px-5 py-2 font-serif text-sm font-semibold text-primary-dark transition-colors hover:border-gold-light hover:bg-gold-light"
+              >
+                Archief Aanvragen
+              </Link>
+            </div>
 
             {/* Mobile menu button */}
             <button

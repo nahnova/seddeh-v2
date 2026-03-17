@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Image from "next/image";
 import { client } from "@/sanity/client";
 import { galleryBySlugQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/image";
 import { PageHeading } from "@/components/PageHeading";
+import { ProtectedImage } from "@/components/ProtectedImage";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -57,7 +57,7 @@ export default async function GalleryPage({ params }: PageProps) {
               index: number,
             ) => (
               <figure key={index} className="mb-4 break-inside-avoid">
-                <Image
+                <ProtectedImage
                   src={urlFor(img.image).width(600).url()}
                   alt={img.alt || gallery.title}
                   width={600}

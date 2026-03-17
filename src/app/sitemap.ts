@@ -65,6 +65,18 @@ const staticRoutes: MetadataRoute.Sitemap = [
     changeFrequency: "yearly",
     priority: 0.5,
   },
+  {
+    url: `${BASE_URL}/leden`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.6,
+  },
+  {
+    url: `${BASE_URL}/lid-worden`,
+    lastModified: new Date(),
+    changeFrequency: "yearly",
+    priority: 0.5,
+  },
 ];
 
 /** Fetch all slugs for a given Sanity document type. */

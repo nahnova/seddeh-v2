@@ -28,6 +28,20 @@ export const metadata: Metadata = {
     template: `%s | ${siteTitle}`,
   },
   description: siteDescription,
+  keywords: [
+    "Eygelshoven",
+    "heemkunde",
+    "historie",
+    "erfgoed",
+    "Laethof",
+    "Stichting Eygelshoven door de Eeuwen Heen",
+    "Limburg",
+    "mijnverleden",
+    "genealogie",
+  ],
+  alternates: {
+    canonical: siteUrl,
+  },
   icons: {
     icon: "/wapen.png",
     apple: "/wapen.png",
@@ -52,11 +66,33 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NGO",
+    name: "Stichting Eygelshoven door de Eeuwen Heen",
+    url: siteUrl,
+    description: siteDescription,
+    email: "info.seddeh@gmail.com",
+    telephone: "045-2057088",
+    foundingDate: "1981-11-30",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Putstraat 17",
+      postalCode: "6471 GB",
+      addressLocality: "Eygelshoven",
+      addressCountry: "NL",
+    },
+  };
+
   return (
     <html lang="nl">
       <body
         className={`${ebGaramond.variable} ${inter.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-white"

@@ -24,6 +24,18 @@ export default async function LedenPage() {
         description="De mensen achter de stichting — samen zetten wij ons in voor het behoud en de ontsluiting van het Eygelshovense erfgoed."
       />
 
+      <div className="mb-8 rounded-sm border border-gold/30 bg-cream-dark p-5">
+        <p className="font-serif text-text">
+          Wilt u ook lid worden van onze stichting?{" "}
+          <a
+            href="/lid-worden"
+            className="font-semibold text-gold underline underline-offset-2 transition-colors hover:text-primary-dark"
+          >
+            Meld u hier aan
+          </a>
+        </p>
+      </div>
+
       {members.length === 0 && (
         <p className="font-serif text-text-light">
           Informatie over onze leden volgt binnenkort.
