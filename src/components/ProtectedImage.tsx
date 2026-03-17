@@ -33,8 +33,15 @@ export function ProtectedImage({
         height={height}
         className={`select-none pointer-events-none ${className ?? ""}`}
       />
-      {/* Transparent overlay — intercepts save-image and inspect attempts */}
-      <div className="absolute inset-0" aria-hidden="true" />
+      {/* Overlay with logo watermark */}
+      <div className="absolute inset-0 flex items-end justify-end" aria-hidden="true">
+        <img
+          src="/logo.png"
+          alt=""
+          className="pointer-events-none m-2 h-6 w-auto select-none opacity-40"
+          draggable={false}
+        />
+      </div>
     </div>
   );
 }
