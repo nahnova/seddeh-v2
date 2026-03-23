@@ -1,36 +1,74 @@
-# SEDDEH v2 — Kostenoverzicht
-
-> Laatst bijgewerkt: 17 maart 2026
+# Factuur — Nieuwe Website SEDDEH
 
 ---
 
-## Eenmalig — Bouw website
+**Van:**
+Noa Heutz
+E-mail: [jouw e-mail]
 
-| Omschrijving                                        | Bedrag  |
-|-----------------------------------------------------|---------|
-| Ontwerp & ontwikkeling (10 uur × €60)               | €600    |
-| Sanity CMS opzet & content migratie                 | Inbegrepen |
-| Vercel deployment & configuratie                    | Inbegrepen |
-| **Totaal eenmalig**                                 | **€600** |
+**Aan:**
+Stichting Eygelshoven door de Eeuwen Heen
+Putstraat 17
+6471 GB Eygelshoven
 
-## Jaarlijks — Hosting & domein
-
-| Service              | Kosten/maand | Kosten/jaar |
-|----------------------|-------------|-------------|
-| Hosting (Vercel)     | €15         | €180        |
-| Domeinregistratie    | —           | €12         |
-| Sanity CMS (Free)    | €0          | €0          |
-| **Totaal per jaar**  | **€15**     | **€192**    |
+**Datum:** 17 maart 2026
 
 ---
 
-## Samenvatting
+## Wat krijgt u?
 
-| Periode         | Bedrag   |
-|-----------------|----------|
-| Eerste jaar     | €792     |
-| Vervolgjaren    | €192/jaar |
+Een volledig nieuwe website voor de stichting, inclusief:
+
+- Moderne, snelle website met alle bestaande pagina's
+- Beheersysteem (CMS) om zelf nieuws, foto's en evenementen te plaatsen
+- Zoekfunctie op de website
+- Contactformulieren (archief aanvragen, lid worden)
+- Fotogalerijen met bescherming tegen downloaden
+- Zoekmachine-optimalisatie (beter vindbaar op Google)
 
 ---
 
-*Beheer en onderhoud worden in een later stadium besproken.*
+## Eenmalige kosten — Bouw website
+
+| Omschrijving                          | Bedrag  |
+|---------------------------------------|---------|
+| Ontwerp en ontwikkeling nieuwe website | €600,00 |
+| Beheersysteem (CMS) inrichten         | Inbegrepen |
+| Alle content overzetten               | Inbegrepen |
+| Online zetten van de website          | Inbegrepen |
+| **Totaal eenmalig**                   | **€600,00** |
+
+---
+
+## Jaarlijkse kosten — Hosting & domein
+
+| Omschrijving                          | Per maand | Per jaar  |
+|---------------------------------------|-----------|-----------|
+| Webhosting (de website online houden) | €15,00    | €180,00   |
+| Domeinnaam (uw internetadres)         | —         | €12,00    |
+| Beheersysteem (CMS)                   | Gratis*   | Gratis*   |
+| **Totaal per jaar**                   | **€15,00** | **€192,00** |
+
+---
+
+*\* Het beheersysteem is gratis zolang we binnen de limieten blijven. Bij normaal gebruik van de website zal dat nog lang zo blijven.*
+
+## Overzicht
+
+| Wat                                | Bedrag     |
+|------------------------------------|------------|
+| Bouw website (eenmalig)           | €600,00    |
+| Hosting & domein eerste jaar       | €192,00    |
+| **Te betalen eerste jaar**         | **€792,00** |
+| | |
+| **Daarna per jaar**               | **€192,00** |
+
+---
+
+*Ter vergelijking: de huidige WordPress-hosting kost €304,- per jaar (€184,- met korting). De nieuwe website is moderner, sneller, en op termijn voordeliger.*
+
+---
+
+Betaling: op rekening, binnen 30 dagen na factuurdatum.
+
+Bij vragen kunt u altijd contact opnemen.

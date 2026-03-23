@@ -7,9 +7,9 @@ import { PageHeading } from "@/components/PageHeading";
 import { UserRound } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Leden",
+  title: "Medewerkers",
   description:
-    "De leden van Stichting Eygelshoven door de Eeuwen Heen — samen zetten wij ons in voor het Eygelshovense erfgoed.",
+    "De medewerkers van Stichting Eygelshoven door de Eeuwen Heen — samen zetten wij ons in voor het Eygelshovense erfgoed.",
 };
 
 export const revalidate = 60;
@@ -20,15 +20,15 @@ export default async function LedenPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <PageHeading
-        title="Onze Leden"
+        title="Onze Medewerkers"
         description="De mensen achter de stichting — samen zetten wij ons in voor het behoud en de ontsluiting van het Eygelshovense erfgoed."
       />
 
       <div className="mb-8 rounded-sm border border-gold/30 bg-cream-dark p-5">
         <p className="font-serif text-text">
-          Wilt u ook lid worden van onze stichting?{" "}
+          Wilt u ook medewerker worden bij onze stichting?{" "}
           <a
-            href="/lid-worden"
+            href="/medewerker-worden"
             className="font-semibold text-gold underline underline-offset-2 transition-colors hover:text-primary-dark"
           >
             Meld u hier aan
@@ -38,7 +38,7 @@ export default async function LedenPage() {
 
       {members.length === 0 && (
         <p className="font-serif text-text-light">
-          Informatie over onze leden volgt binnenkort.
+          Informatie over onze medewerkers volgt binnenkort.
         </p>
       )}
 

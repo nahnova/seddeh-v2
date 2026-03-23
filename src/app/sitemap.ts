@@ -66,13 +66,13 @@ const staticRoutes: MetadataRoute.Sitemap = [
     priority: 0.5,
   },
   {
-    url: `${BASE_URL}/leden`,
+    url: `${BASE_URL}/medewerkers`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.6,
   },
   {
-    url: `${BASE_URL}/lid-worden`,
+    url: `${BASE_URL}/medewerker-worden`,
     lastModified: new Date(),
     changeFrequency: "yearly",
     priority: 0.5,

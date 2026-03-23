@@ -54,7 +54,7 @@ export function LidWordenForm() {
           Aanmelding ontvangen
         </h3>
         <p className="mt-2 font-serif text-sm text-green-700">
-          Uw aanmelding is ontvangen! Wij nemen spoedig contact met u op.
+          Bedankt voor uw interesse! Wij nemen spoedig contact met u op.
         </p>
       </div>
     );
@@ -134,13 +134,13 @@ export function LidWordenForm() {
           htmlFor="motivatie"
           className="block font-sans text-sm font-medium text-text"
         >
-          Waarom wilt u lid worden?
+          Waarom wilt u medewerker worden?
         </label>
         <textarea
           id="motivatie"
           name="motivatie"
           rows={4}
-          placeholder="Vertel ons wat u motiveert om lid te worden..."
+          placeholder="Vertel ons wat u motiveert om medewerker te worden..."
           className="mt-1 block w-full rounded-sm border border-border bg-white px-3 py-2 font-serif text-text shadow-sm placeholder:text-text-light/50 focus:border-gold focus:ring-1 focus:ring-gold"
         />
       </div>

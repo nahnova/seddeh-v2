@@ -48,8 +48,8 @@ export async function GET() {
     { title: "De Stichting", href: "/de-stichting", type: "pagina" },
     { title: "Nieuws", href: "/nieuws", type: "pagina" },
     { title: "Werkgroepen", href: "/werkgroepen", type: "pagina" },
-    { title: "Leden", href: "/leden", type: "pagina" },
-    { title: "Lid Worden", href: "/lid-worden", type: "pagina" },
+    { title: "Medewerkers", href: "/medewerkers", type: "pagina" },
+    { title: "Medewerker Worden", href: "/medewerker-worden", type: "pagina" },
     { title: "Gallerijen", href: "/gallerijen", type: "pagina" },
     { title: "Agenda", href: "/agenda", type: "pagina" },
     { title: "Kennisbank", href: "/kennisbank", type: "pagina" },
@@ -65,7 +65,7 @@ export async function GET() {
     gallery: (s) => `/gallerijen/${s}`,
     monument: (s) => `/de-stichting/monumenten`,
     event: () => `/agenda`,
-    member: () => `/leden`,
+    member: () => `/medewerkers`,
   };
 
   const typeLabels: Record<string, string> = {
@@ -75,7 +75,7 @@ export async function GET() {
     gallery: "galerij",
     monument: "monument",
     event: "agenda",
-    member: "lid",
+    member: "medewerker",
   };
 
   const dynamic = [

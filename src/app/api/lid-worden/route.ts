@@ -20,12 +20,12 @@ export async function POST(request: Request) {
       "info.seddeh@gmail.com";
 
     await resend.emails.send({
-      from: "Lidmaatschap Aanvraag <onboarding@resend.dev>",
+      from: "Medewerker Aanmelding <onboarding@resend.dev>",
       to: [recipientEmail],
       replyTo: email,
-      subject: `Nieuwe Lidmaatschap Aanvraag: ${escapeHtml(naam)}`,
+      subject: `Nieuwe Medewerker Aanmelding: ${escapeHtml(naam)}`,
       html: `
-        <h2>Nieuwe Lidmaatschap Aanvraag</h2>
+        <h2>Nieuwe Medewerker Aanmelding</h2>
         <table style="border-collapse: collapse; width: 100%;">
           <tr>
             <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Naam</td>
