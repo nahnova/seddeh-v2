@@ -5,7 +5,7 @@ import { groq } from "next-sanity";
 export const revalidate = 120;
 
 export async function GET() {
-  const [pages, news, werkgroepen, galleries, monuments, events] =
+  const [pages, news, werkgroepen, galleries, monuments, events, members] =
     await Promise.all([
       client.fetch(groq`*[_type == "page" && defined(slug.current)]{
         "title": title,
@@ -36,6 +36,11 @@ export async function GET() {
         "title": title,
         "type": "event"
       }`),
+      client.fetch(groq`*[_type == "member"] | order(order asc){
+        "title": name,
+        "role": role,
+        "type": "member"
+      }`),
     ]);
 
   const staticPages = [
@@ -60,6 +65,7 @@ export async function GET() {
     gallery: (s) => `/gallerijen/${s}`,
     monument: (s) => `/de-stichting/monumenten`,
     event: () => `/agenda`,
+    member: () => `/leden`,
   };
 
   const typeLabels: Record<string, string> = {
@@ -69,6 +75,7 @@ export async function GET() {
     gallery: "galerij",
     monument: "monument",
     event: "agenda",
+    member: "lid",
   };
 
   const dynamic = [
@@ -78,9 +85,10 @@ export async function GET() {
     ...galleries,
     ...monuments,
     ...events,
+    ...members,
   ].map(
-    (item: { title: string; slug?: string; type: string }) => ({
-      title: item.title,
+    (item: { title: string; slug?: string; role?: string; type: string }) => ({
+      title: item.role ? `${item.title} — ${item.role}` : item.title,
       href: hrefMap[item.type]?.(item.slug || "") || "/",
       type: typeLabels[item.type] || item.type,
     }),
