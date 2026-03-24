@@ -21,6 +21,7 @@ export function ArchiefAanvraagForm() {
       subject: formData.get("subject") as string,
       description: formData.get("description") as string,
       preferredDate: formData.get("preferredDate") as string,
+      website: formData.get("website") as string,
     };
 
     try {
@@ -160,6 +161,12 @@ export function ArchiefAanvraagForm() {
           placeholder="Beschrijf zo specifiek mogelijk welke stukken of informatie u zoekt..."
           className="mt-1 block w-full rounded-md border border-border bg-white px-3 py-2 font-serif text-text shadow-sm placeholder:text-text-light/50 focus:border-primary focus:ring-1 focus:ring-primary"
         />
+      </div>
+
+      {/* Honeypot */}
+      <div className="absolute -left-[9999px]" aria-hidden="true">
+        <label htmlFor="archief-website">Website</label>
+        <input type="text" id="archief-website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
       {status === "error" && (

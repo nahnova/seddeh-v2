@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Check, Minus, Plus, ShoppingBag, X } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                             */
@@ -265,6 +265,43 @@ function OrderModal({
 }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Focus trap
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const focusable = modal.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    first?.focus();
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    }
+
+    modal.addEventListener("keydown", handleKeyDown);
+    return () => modal.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
 
   const orderSummary = items
     .map((i) => `${i.qty}× ${i.pub.title} (${i.pub.price ? formatPrice(i.pub.price) : "Op aanvraag"})`)
@@ -283,6 +320,7 @@ function OrderModal({
       adres: formData.get("adres") as string,
       publicatie: orderSummary,
       prijs: formatPrice(totalPrice),
+      website: formData.get("website") as string,
     };
 
     try {
@@ -306,7 +344,7 @@ function OrderModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Bestelling plaatsen" ref={modalRef}>
       <div className="absolute inset-0 bg-primary-dark/60 backdrop-blur-sm" onClick={onClose} />
 
       <div className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-sm border border-border bg-white shadow-xl">
@@ -403,6 +441,12 @@ function OrderModal({
                       className="mt-1 block w-full rounded-sm border border-border bg-white px-3 py-2 font-serif text-text shadow-sm placeholder:text-text-light/50 focus:border-gold focus:ring-1 focus:ring-gold"
                     />
                   </div>
+                </div>
+
+                {/* Honeypot */}
+                <div className="absolute -left-[9999px]" aria-hidden="true">
+                  <label htmlFor="order-website">Website</label>
+                  <input type="text" id="order-website" name="website" tabIndex={-1} autoComplete="off" />
                 </div>
 
                 {status === "error" && (

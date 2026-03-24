@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   title: "Medewerker Worden",
   description:
     "Word medewerker bij Stichting Eygelshoven door de Eeuwen Heen en draag bij aan het behoud van Eygelshovens erfgoed.",
+  openGraph: {
+    title: "Medewerker Worden | Stichting Eygelshoven door de Eeuwen Heen",
+    description:
+      "Word medewerker bij Stichting Eygelshoven door de Eeuwen Heen en draag bij aan het behoud van Eygelshovens erfgoed.",
+  },
 };
 
 export const revalidate = 60;
@@ -18,9 +23,31 @@ const benefits = [
   "Word onderdeel van een actieve gemeenschap",
 ];
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Medewerker Worden",
+    },
+  ],
+};
+
 export default function MedewerkerWordenPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHeading
         title="Medewerker Worden"
         description="Word medewerker bij onze stichting en help mee het rijke erfgoed van Eygelshoven te bewaren voor toekomstige generaties."

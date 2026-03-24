@@ -7,6 +7,13 @@ import { PageHeading } from "@/components/PageHeading";
 
 export const metadata: Metadata = {
   title: "De Stichting",
+  description:
+    "Leer meer over Stichting Eygelshoven door de Eeuwen Heen: opgericht in 1981 als heemkundevereniging voor het behoud van de geschiedenis van Eygelshoven, Limburg.",
+  openGraph: {
+    title: "De Stichting | Stichting Eygelshoven door de Eeuwen Heen",
+    description:
+      "Leer meer over Stichting Eygelshoven door de Eeuwen Heen: opgericht in 1981 als heemkundevereniging voor het behoud van de geschiedenis van Eygelshoven, Limburg.",
+  },
 };
 
 export const revalidate = 60;
@@ -49,6 +56,24 @@ const subpages = [
   },
 ];
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "De Stichting",
+    },
+  ],
+};
+
 export default async function DeStichtingPage() {
   const page = await client
     .fetch(pageBySlugQuery, { slug: "de-stichting" })
@@ -56,6 +81,10 @@ export default async function DeStichtingPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHeading title="De Stichting" />
 
       {page?.body && (

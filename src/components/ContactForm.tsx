@@ -17,6 +17,7 @@ export function ContactForm() {
       email: formData.get("email") as string,
       onderwerp: formData.get("onderwerp") as string,
       bericht: formData.get("bericht") as string,
+      website: formData.get("website") as string,
     };
 
     try {
@@ -106,6 +107,12 @@ export function ContactForm() {
           placeholder="Stel uw vraag of laat een bericht achter..."
           className="mt-1 block w-full rounded-sm border border-border bg-white px-3 py-2.5 font-serif text-text shadow-sm placeholder:text-text-light/50 focus:border-gold focus:ring-1 focus:ring-gold"
         />
+      </div>
+
+      {/* Honeypot */}
+      <div className="absolute -left-[9999px]" aria-hidden="true">
+        <label htmlFor="contact-website">Website</label>
+        <input type="text" id="contact-website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
       {status === "error" && (

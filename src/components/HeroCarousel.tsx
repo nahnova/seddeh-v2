@@ -58,32 +58,38 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
       onMouseEnter={() => (paused.current = true)}
       onMouseLeave={() => (paused.current = false)}
     >
-      {/* ── Image layers ────────────────────────────────── */}
+      {/* ── Image layers (only render active + previous for performance) */}
       <div className="absolute inset-0">
-        {images.map((img, i) => (
-          <div
-            key={img.url}
-            className="absolute inset-0"
-            style={{
-              opacity: i === current ? 1 : 0,
-              zIndex: i === current ? 2 : i === previous ? 1 : 0,
-              transition: i === current ? "opacity 1.2s ease-in-out" : "none",
-            }}
-          >
-            <Image
-              src={img.url}
-              alt={img.alt || "Sfeerbeeld van Eygelshoven"}
-              fill
-              sizes="100vw"
-              className="object-cover"
+        {images.map((img, i) => {
+          const isActive = i === current;
+          const isPrev = i === previous;
+          if (!isActive && !isPrev) return null;
+          return (
+            <div
+              key={img.url}
+              className="absolute inset-0"
               style={{
-                animation:
-                  i === current ? "hero-ken-burns 7s ease-out forwards" : "none",
+                opacity: isActive ? 1 : 0,
+                zIndex: isActive ? 2 : 1,
+                transition: isActive ? "opacity 1.2s ease-in-out" : "none",
               }}
-              priority={i < 2}
-            />
-          </div>
-        ))}
+            >
+              <Image
+                src={img.url}
+                alt={img.alt || "Sfeerbeeld van Eygelshoven"}
+                fill
+                sizes="100vw"
+                className="object-cover"
+                style={{
+                  animation: isActive
+                    ? "hero-ken-burns 7s ease-out forwards"
+                    : "none",
+                }}
+                priority={i < 2}
+              />
+            </div>
+          );
+        })}
       </div>
 
       {/* ── Gradient overlays for text legibility ──────── */}

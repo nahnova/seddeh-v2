@@ -9,6 +9,13 @@ import { Users } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Werkgroepen",
+  description:
+    "Ontdek de werkgroepen van Stichting Eygelshoven door de Eeuwen Heen: genealogie, mijngeschiedenis, monumenten, dialect en meer. Elk gericht op een ander aspect van het Eygelshovense erfgoed.",
+  openGraph: {
+    title: "Werkgroepen | Stichting Eygelshoven door de Eeuwen Heen",
+    description:
+      "Ontdek de werkgroepen van Stichting Eygelshoven door de Eeuwen Heen: genealogie, mijngeschiedenis, monumenten, dialect en meer.",
+  },
 };
 
 export const revalidate = 60;
@@ -20,6 +27,24 @@ function slugify(name: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Werkgroepen",
+    },
+  ],
+};
+
 export default async function WerkgroepenPage() {
   const werkgroepen = await client
     .fetch(allWerkgroepenQuery)
@@ -27,6 +52,10 @@ export default async function WerkgroepenPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHeading
         title="Werkgroepen"
         description="Onze stichting bestaat uit gespecialiseerde werkgroepen die zich elk richten op een ander aspect van het Eygelshovense erfgoed."

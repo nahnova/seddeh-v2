@@ -1,11 +1,28 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { escapeHtml } from "@/lib/escapeHtml";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(request: Request) {
   try {
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      "unknown";
+    if (!rateLimit(ip)) {
+      return NextResponse.json(
+        { error: "Te veel verzoeken. Probeer het later opnieuw." },
+        { status: 429 },
+      );
+    }
+
     const resend = new Resend(process.env.RESEND_API_KEY);
     const body = await request.json();
-    const { naam, email, telefoon, adres, motivatie } = body;
+    const { naam, email, telefoon, adres, motivatie, website } = body;
+
+    // Honeypot
+    if (website) {
+      return NextResponse.json({ success: true });
+    }
 
     if (!naam || !email) {
       return NextResponse.json(
@@ -59,13 +76,4 @@ export async function POST(request: Request) {
       { status: 500 },
     );
   }
-}
-
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
 }

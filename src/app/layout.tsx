@@ -37,7 +37,11 @@ export const metadata: Metadata = {
     "Stichting Eygelshoven door de Eeuwen Heen",
     "Limburg",
     "mijnverleden",
+    "mijngeschiedenis",
     "genealogie",
+    "archief",
+    "Kerkrade",
+    "Parkstad",
   ],
   alternates: {
     canonical: siteUrl,
@@ -53,11 +57,20 @@ export const metadata: Metadata = {
     siteName: siteTitle,
     type: "website",
     locale: "nl_NL",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Stichting Eygelshoven door de Eeuwen Heen",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
+    images: ["/opengraph-image.png"],
   },
 };
 
@@ -69,17 +82,33 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NGO",
+    "@id": `${siteUrl}/#organization`,
     name: "Stichting Eygelshoven door de Eeuwen Heen",
+    alternateName: "SEDDEH",
     url: siteUrl,
+    logo: `${siteUrl}/wapen.png`,
+    image: `${siteUrl}/opengraph-image.png`,
     description: siteDescription,
     email: "info.seddeh@gmail.com",
     telephone: "045-2057088",
     foundingDate: "1981-11-30",
+    areaServed: {
+      "@type": "Place",
+      name: "Eygelshoven, Limburg, Nederland",
+    },
+    knowsAbout: [
+      "Heemkunde",
+      "Geschiedenis van Eygelshoven",
+      "Genealogie",
+      "Mijngeschiedenis Limburg",
+      "Erfgoed Zuid-Limburg",
+    ],
     address: {
       "@type": "PostalAddress",
       streetAddress: "Putstraat 17",
       postalCode: "6471 GB",
       addressLocality: "Eygelshoven",
+      addressRegion: "Limburg",
       addressCountry: "NL",
     },
   };

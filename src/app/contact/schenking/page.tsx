@@ -4,11 +4,46 @@ import { PageHeading } from "@/components/PageHeading";
 
 export const metadata: Metadata = {
   title: "Schenking",
+  description:
+    "Steun Stichting Eygelshoven door de Eeuwen Heen met een schenking. Uw bijdrage helpt bij het behoud en de ontsluiting van het Eygelshovense erfgoed.",
+  openGraph: {
+    title: "Schenking | Stichting Eygelshoven door de Eeuwen Heen",
+    description:
+      "Steun Stichting Eygelshoven door de Eeuwen Heen met een schenking. Uw bijdrage helpt bij het behoud en de ontsluiting van het Eygelshovense erfgoed.",
+  },
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Contact",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl/contact",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Schenking",
+    },
+  ],
 };
 
 export default function SchenkingPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHeading
         title="Schenking"
         backHref="/contact"

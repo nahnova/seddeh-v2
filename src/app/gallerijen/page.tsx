@@ -8,15 +8,44 @@ import { PageHeading } from "@/components/PageHeading";
 
 export const metadata: Metadata = {
   title: "Gallerijen",
+  description:
+    "Bekijk historische foto's en beeldmateriaal van Eygelshoven. Fotogalerijen over het dorpsleven, mijngeschiedenis, monumenten en meer.",
+  openGraph: {
+    title: "Gallerijen | Stichting Eygelshoven door de Eeuwen Heen",
+    description:
+      "Bekijk historische foto's en beeldmateriaal van Eygelshoven. Fotogalerijen over het dorpsleven, mijngeschiedenis, monumenten en meer.",
+  },
 };
 
 export const revalidate = 60;
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Gallerijen",
+    },
+  ],
+};
 
 export default async function GallerijenPage() {
   const galleries = await client.fetch(allGalleriesQuery).catch(() => []);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHeading title="Gallerijen" />
 
       {galleries.length === 0 && (

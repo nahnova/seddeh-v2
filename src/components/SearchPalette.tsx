@@ -33,6 +33,7 @@ export function SearchPalette() {
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   // Fetch search index on first open
@@ -44,7 +45,7 @@ export function SearchPalette() {
       .catch(() => {});
   }, [open, items.length]);
 
-  // Focus input when opened
+  // Focus input when opened + trap focus
   useEffect(() => {
     if (open) {
       requestAnimationFrame(() => inputRef.current?.focus());
@@ -52,6 +53,31 @@ export function SearchPalette() {
       setQuery("");
       setActiveIndex(0);
     }
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    function handleTab(e: KeyboardEvent) {
+      if (e.key !== "Tab" || !modal) return;
+      const focusable = modal.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last?.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first?.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleTab);
+    return () => document.removeEventListener("keydown", handleTab);
   }, [open]);
 
   // Cmd+K / Ctrl+K shortcut
@@ -135,6 +161,7 @@ export function SearchPalette() {
       {/* Backdrop + Modal */}
       {open && (
         <div
+          ref={modalRef}
           className="fixed inset-0 z-[100] flex items-start justify-center bg-black/40 pt-[15vh]"
           onClick={(e) => {
             if (e.target === e.currentTarget) setOpen(false);

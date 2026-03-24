@@ -8,6 +8,31 @@ import { Mail, MapPin, Phone, Clock, Gift, Archive } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact",
+  description:
+    "Neem contact op met Stichting Eygelshoven door de Eeuwen Heen. Bezoek ons in De Laethof aan de Putstraat 17 in Eygelshoven of stuur een bericht.",
+  openGraph: {
+    title: "Contact | Stichting Eygelshoven door de Eeuwen Heen",
+    description:
+      "Neem contact op met Stichting Eygelshoven door de Eeuwen Heen. Bezoek ons in De Laethof aan de Putstraat 17 in Eygelshoven of stuur een bericht.",
+  },
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Contact",
+    },
+  ],
 };
 
 export default async function ContactPage() {
@@ -15,6 +40,10 @@ export default async function ContactPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHeading title="Contact" />
 
       <div className="grid gap-10 lg:grid-cols-5">

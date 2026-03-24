@@ -8,15 +8,44 @@ import { PageHeading } from "@/components/PageHeading";
 
 export const metadata: Metadata = {
   title: "Nieuws",
+  description:
+    "Het laatste nieuws van Stichting Eygelshoven door de Eeuwen Heen. Blijf op de hoogte van activiteiten, ontdekkingen en publicaties over de historie van Eygelshoven.",
+  openGraph: {
+    title: "Nieuws | Stichting Eygelshoven door de Eeuwen Heen",
+    description:
+      "Het laatste nieuws van Stichting Eygelshoven door de Eeuwen Heen. Blijf op de hoogte van activiteiten, ontdekkingen en publicaties over de historie van Eygelshoven.",
+  },
 };
 
 export const revalidate = 60;
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Nieuws",
+    },
+  ],
+};
 
 export default async function NieuwsPage() {
   const news = await client.fetch(allNewsQuery).catch(() => []);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHeading title="Nieuws" />
 
       {news.length === 0 && (

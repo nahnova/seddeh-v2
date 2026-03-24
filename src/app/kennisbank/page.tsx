@@ -11,7 +11,12 @@ import { PageHeading } from "@/components/PageHeading";
 export const metadata: Metadata = {
   title: "Kennisbank",
   description:
-    "Publieke kennisbron met links naar genealogische en historische websites over Eygelshoven en Limburg.",
+    "Publieke kennisbron met links naar genealogische en historische websites over Eygelshoven en Limburg. Bronnen voor stamboomonderzoek, heemkunde en erfgoed.",
+  openGraph: {
+    title: "Kennisbank | Stichting Eygelshoven door de Eeuwen Heen",
+    description:
+      "Publieke kennisbron met links naar genealogische en historische websites over Eygelshoven en Limburg. Bronnen voor stamboomonderzoek, heemkunde en erfgoed.",
+  },
 };
 
 export const revalidate = 60;
@@ -39,6 +44,24 @@ interface KennisbankCategory {
   order: number;
 }
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Kennisbank",
+    },
+  ],
+};
+
 export default async function KennisbankPage() {
   const [links, categories] = await Promise.all([
     client.fetch<KennisbankLink[]>(allKennisbankLinksQuery).catch(() => []),
@@ -56,6 +79,10 @@ export default async function KennisbankPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHeading
         title="Kennisbank"
         description="Een verzameling publieke bronnen voor genealogisch en historisch onderzoek over Eygelshoven, Limburg en omstreken. Deze links zijn vrij toegankelijk."
@@ -164,7 +191,13 @@ export default async function KennisbankPage() {
                       </p>
                     )}
                     <span className="mt-0.5 inline-block font-sans text-xs text-text-light/70">
-                      {new URL(link.url).hostname}
+                      {(() => {
+                        try {
+                          return new URL(link.url).hostname;
+                        } catch {
+                          return link.url;
+                        }
+                      })()}
                     </span>
                   </div>
                 </a>

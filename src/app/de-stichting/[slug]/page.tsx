@@ -25,13 +25,53 @@ export async function generateMetadata({
   const page = await client
     .fetch(pageBySlugQuery, { slug })
     .catch(() => null);
+  const title = page?.title || slug.replace(/-/g, " ");
+  const description =
+    page?.seoDescription ||
+    `Informatie over ${title} van Stichting Eygelshoven door de Eeuwen Heen, heemkundevereniging in Eygelshoven, Limburg.`;
   return {
-    title: page?.title || slug.replace(/-/g, " "),
-    description: page?.seoDescription,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
   };
 }
 
 export const revalidate = 60;
+
+function BreadcrumbJsonLd({ title, slug }: { title: string; slug: string }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "De Stichting",
+        item: "https://stichting-eygelshovendoordeeeuwenheen.nl/de-stichting",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: title,
+      },
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
 
 export default async function DeStichtingSubPage({ params }: PageProps) {
   const { slug } = await params;
@@ -46,6 +86,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
       .catch(() => []);
     return (
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <BreadcrumbJsonLd title="Het Bestuur" slug="het-bestuur" />
         <PageHeading
           title="Het Bestuur"
           backHref="/de-stichting"
@@ -102,6 +143,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
       .catch(() => []);
     return (
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <BreadcrumbJsonLd title="Monumenten" slug="monumenten" />
         <PageHeading
           title="Monumenten"
           backHref="/de-stichting"
@@ -180,6 +222,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
       .catch(() => []);
     return (
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <BreadcrumbJsonLd title="Publicaties" slug="publicaties" />
         <PageHeading
           title="Publicaties"
           backHref="/de-stichting"
@@ -236,6 +279,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <BreadcrumbJsonLd title={page.title} slug={slug} />
       <PageHeading
         title={page.title}
         backHref="/de-stichting"

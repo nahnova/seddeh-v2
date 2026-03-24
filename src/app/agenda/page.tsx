@@ -7,15 +7,44 @@ import { MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Agenda",
+  description:
+    "Bekijk de agenda van Stichting Eygelshoven door de Eeuwen Heen: lezingen, rondleidingen, boekenmarkten en andere activiteiten in De Laethof.",
+  openGraph: {
+    title: "Agenda | Stichting Eygelshoven door de Eeuwen Heen",
+    description:
+      "Bekijk de agenda van Stichting Eygelshoven door de Eeuwen Heen: lezingen, rondleidingen, boekenmarkten en andere activiteiten in De Laethof.",
+  },
 };
 
 export const revalidate = 60;
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Agenda",
+    },
+  ],
+};
 
 export default async function AgendaPage() {
   const events = await client.fetch(allEventsQuery).catch(() => []);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHeading title="Agenda" />
 
       {events.length === 0 && (

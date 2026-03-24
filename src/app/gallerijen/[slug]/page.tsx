@@ -17,9 +17,28 @@ export async function generateMetadata({
   const gallery = await client
     .fetch(galleryBySlugQuery, { slug })
     .catch(() => null);
+  const title = gallery?.title || slug.replace(/-/g, " ");
+  const description =
+    gallery?.description ||
+    `Fotogalerij van Stichting Eygelshoven door de Eeuwen Heen met historische beelden van Eygelshoven.`;
   return {
-    title: gallery?.title,
-    description: gallery?.description,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      ...(gallery?.images?.[0]?.image && {
+        images: [
+          {
+            url: urlFor(gallery.images[0].image).width(1200).height(630).url(),
+            width: 1200,
+            height: 630,
+            alt: title,
+          },
+        ],
+      }),
+    },
   };
 }
 
@@ -35,8 +54,55 @@ export default async function GalleryPage({ params }: PageProps) {
     notFound();
   }
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://stichting-eygelshovendoordeeeuwenheen.nl",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Gallerijen",
+        item: "https://stichting-eygelshovendoordeeeuwenheen.nl/gallerijen",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: gallery.title,
+      },
+    ],
+  };
+
+  const galleryJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    name: gallery.title,
+    description:
+      gallery.description ||
+      `Historische fotogalerij over ${gallery.title} van Eygelshoven.`,
+    url: `https://stichting-eygelshovendoordeeeuwenheen.nl/gallerijen/${slug}`,
+    ...(gallery.images &&
+      gallery.images.length > 0 && {
+        image: gallery.images.map(
+          (img: { image: { asset: { _ref: string } }; alt?: string }) =>
+            urlFor(img.image).width(800).url(),
+        ),
+      }),
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([breadcrumbJsonLd, galleryJsonLd]),
+        }}
+      />
       <PageHeading
         title={gallery.title}
         backHref="/gallerijen"
