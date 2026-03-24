@@ -10,6 +10,7 @@ import {
 import { PortableText } from "@/components/PortableText";
 import { urlFor } from "@/sanity/image";
 import { PageHeading } from "@/components/PageHeading";
+import { PublicationCard } from "@/components/PublicationCard";
 import Image from "next/image";
 import { Navigation } from "lucide-react";
 
@@ -172,7 +173,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
     );
   }
 
-  // Special page: Publicaties
+  // Special page: Publicaties (webshop-style)
   if (slug === "publicaties") {
     const publications = await client
       .fetch(allPublicationsQuery)
@@ -186,10 +187,18 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
         />
 
         {page?.body && (
-          <div className="mb-10 max-w-3xl">
+          <div className="mb-6 max-w-3xl">
             <PortableText value={page.body} />
           </div>
         )}
+
+        {/* Shipping note */}
+        <div className="mb-8 rounded-sm border border-gold/30 bg-cream px-5 py-3">
+          <p className="font-serif text-sm text-text-light">
+            Alle genoemde prijzen zijn excl. eventuele verzendkosten.
+            Publicaties zijn ook verkrijgbaar tijdens de maandelijkse boekenbeurs in de Laethof.
+          </p>
+        </div>
 
         {publications.length > 0 && (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -197,39 +206,26 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
               (pub: {
                 _id: string;
                 title: string;
-                author?: string;
-                year?: string;
                 description?: string;
+                price?: number;
+                isbn?: string;
+                format?: string;
                 coverImage?: { asset: { _ref: string } };
               }) => (
-                <article
+                <PublicationCard
                   key={pub._id}
-                  className="rounded-sm border border-border bg-white p-6 transition-colors hover:border-gold"
-                >
-                  {pub.coverImage && (
-                    <Image
-                      src={urlFor(pub.coverImage).width(300).height(400).url()}
-                      alt={pub.title}
-                      width={300}
-                      height={400}
-                      className="mb-4 rounded-sm object-cover"
-                    />
-                  )}
-                  <h3 className="font-serif text-lg font-semibold text-text">
-                    {pub.title}
-                  </h3>
-                  {pub.author && (
-                    <p className="font-serif text-sm text-text-light">
-                      {pub.author}
-                      {pub.year && ` (${pub.year})`}
-                    </p>
-                  )}
-                  {pub.description && (
-                    <p className="mt-2 font-serif text-sm text-text-light">
-                      {pub.description}
-                    </p>
-                  )}
-                </article>
+                  pub={{
+                    _id: pub._id,
+                    title: pub.title,
+                    description: pub.description,
+                    price: pub.price,
+                    isbn: pub.isbn,
+                    format: pub.format,
+                    imageUrl: pub.coverImage
+                      ? urlFor(pub.coverImage).width(600).height(800).url()
+                      : undefined,
+                  }}
+                />
               ),
             )}
           </div>

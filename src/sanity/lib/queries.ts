@@ -127,6 +127,9 @@ export const allPublicationsQuery = groq`*[_type == "publication"]{
   author,
   year,
   description,
+  price,
+  isbn,
+  format,
   coverImage,
   file
 }`;

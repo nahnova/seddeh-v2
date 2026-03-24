@@ -28,6 +28,22 @@ export const publication = defineType({
       rows: 3,
     }),
     defineField({
+      name: "price",
+      title: "Prijs (EUR)",
+      type: "number",
+    }),
+    defineField({
+      name: "isbn",
+      title: "ISBN",
+      type: "string",
+    }),
+    defineField({
+      name: "format",
+      title: "Formaat",
+      type: "string",
+      description: "Bijv. A4, 190 pagina's",
+    }),
+    defineField({
       name: "coverImage",
       title: "Omslagafbeelding",
       type: "image",
