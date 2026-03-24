@@ -4,9 +4,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const images = Array.from({ length: 16 }, (_, i) => `/hero/hero-${i + 1}.jpg`);
+const fallbackImages = Array.from(
+  { length: 16 },
+  (_, i) => ({ url: `/hero/hero-${i + 1}.jpg`, alt: "Sfeerbeeld van Eygelshoven" }),
+);
 
-export function HeroCarousel() {
+interface HeroImage {
+  url: string;
+  alt?: string | null;
+}
+
+export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] }) {
+  const images = sanityImages && sanityImages.length > 0 ? sanityImages : fallbackImages;
+
   const [current, setCurrent] = useState(0);
   const [previous, setPrevious] = useState<number | null>(null);
   const paused = useRef(false);
@@ -17,7 +27,7 @@ export function HeroCarousel() {
       setPrevious(prev);
       return (prev + 1) % images.length;
     });
-  }, []);
+  }, [images.length]);
 
   /* Auto-advance timer */
   useEffect(() => {
@@ -50,9 +60,9 @@ export function HeroCarousel() {
     >
       {/* ── Image layers ────────────────────────────────── */}
       <div className="absolute inset-0">
-        {images.map((src, i) => (
+        {images.map((img, i) => (
           <div
-            key={src}
+            key={img.url}
             className="absolute inset-0"
             style={{
               opacity: i === current ? 1 : 0,
@@ -61,8 +71,8 @@ export function HeroCarousel() {
             }}
           >
             <Image
-              src={src}
-              alt="Sfeerbeeld van Eygelshoven"
+              src={img.url}
+              alt={img.alt || "Sfeerbeeld van Eygelshoven"}
               fill
               sizes="100vw"
               className="object-cover"

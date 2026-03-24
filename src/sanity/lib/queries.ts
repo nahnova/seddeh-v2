@@ -2,6 +2,11 @@ import { groq } from "next-sanity";
 
 export const siteSettingsQuery = groq`*[_type == "siteSettings"][0]`;
 
+export const heroImagesQuery = groq`*[_type == "siteSettings"][0].heroImages[]{
+  "url": asset->url,
+  "alt": alt
+}`;
+
 export const pageBySlugQuery = groq`*[_type == "page" && slug.current == $slug][0]{
   title,
   slug,

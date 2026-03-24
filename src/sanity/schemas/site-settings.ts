@@ -39,6 +39,25 @@ export const siteSettings = defineType({
       rows: 3,
     }),
     defineField({
+      name: "heroImages",
+      title: "Hero Carousel Afbeeldingen",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Beschrijving",
+              type: "string",
+            }),
+          ],
+        },
+      ],
+      description: "Sfeerbeelden die op de homepagina als carousel worden getoond.",
+    }),
+    defineField({
       name: "archiveRequestInfo",
       title: "Archief Aanvraag Informatie",
       type: "array",

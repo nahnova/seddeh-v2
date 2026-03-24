@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { client } from "@/sanity/client";
-import { allNewsQuery, allEventsQuery } from "@/sanity/lib/queries";
+import { allNewsQuery, allEventsQuery, heroImagesQuery } from "@/sanity/lib/queries";
 import { BookOpen, Calendar, Archive, Users, MapPin } from "lucide-react";
 import { HeroCarousel } from "@/components/HeroCarousel";
 
@@ -57,9 +57,10 @@ function SectionHeading({
 /*  Page                                                              */
 /* ------------------------------------------------------------------ */
 export default async function HomePage() {
-  const [news, events] = await Promise.all([
+  const [news, events, heroImages] = await Promise.all([
     client.fetch(allNewsQuery).catch(() => []),
     client.fetch(allEventsQuery).catch(() => []),
+    client.fetch(heroImagesQuery).catch(() => []),
   ]);
 
   const latestNews = news.slice(0, 3);
@@ -70,7 +71,7 @@ export default async function HomePage() {
       {/* ============================================================ */}
       {/*  HERO — Carousel with historical sfeerbeelden                */}
       {/* ============================================================ */}
-      <HeroCarousel />
+      <HeroCarousel images={heroImages} />
 
       {/* ============================================================ */}
       {/*  FEATURES — Four pillars of the foundation                   */}
