@@ -40,31 +40,7 @@ export default function ArchiefAanvraagPage() {
       />
       <PageHeading title="Archief Aanvraag" />
 
-      <div role="alert" className="rounded-sm border border-amber-400 bg-amber-50 p-5">
-        <p className="font-serif text-sm font-semibold text-amber-800">
-          Deze functie is binnenkort beschikbaar.
-        </p>
-        <p className="mt-1 font-serif text-sm text-amber-700">
-          Het online aanvraagformulier wordt momenteel ingericht. Neem in de
-          tussentijd contact op via{" "}
-          <a
-            href="mailto:info.seddeh@gmail.com"
-            className="font-medium underline hover:text-amber-900"
-          >
-            info.seddeh@gmail.com
-          </a>{" "}
-          of bel{" "}
-          <a
-            href="tel:045-2057088"
-            className="font-medium underline hover:text-amber-900"
-          >
-            045-2057088
-          </a>
-          .
-        </p>
-      </div>
-
-      <div className="mt-6 rounded-sm border border-gold/50 bg-cream-dark p-6">
+      <div className="rounded-sm border border-gold/50 bg-cream-dark p-6">
         <h2 className="font-serif text-lg font-semibold text-primary-dark">
           Hoe werkt het?
         </h2>
@@ -84,7 +60,7 @@ export default function ArchiefAanvraagPage() {
         </p>
       </div>
 
-      <div aria-hidden="true" className="pointer-events-none mt-8 select-none opacity-40">
+      <div className="mt-8">
         <ArchiefAanvraagForm />
       </div>
     </div>
