@@ -10,7 +10,7 @@ import {
 import { PortableText } from "@/components/PortableText";
 import { urlFor } from "@/sanity/image";
 import { PageHeading } from "@/components/PageHeading";
-import { PublicationCard } from "@/components/PublicationCard";
+import { PublicationShop } from "@/components/PublicationShop";
 import Image from "next/image";
 import { Navigation } from "lucide-react";
 
@@ -201,8 +201,8 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
         </div>
 
         {publications.length > 0 && (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {publications.map(
+          <PublicationShop
+            publications={publications.map(
               (pub: {
                 _id: string;
                 title: string;
@@ -211,24 +211,19 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                 isbn?: string;
                 format?: string;
                 coverImage?: { asset: { _ref: string } };
-              }) => (
-                <PublicationCard
-                  key={pub._id}
-                  pub={{
-                    _id: pub._id,
-                    title: pub.title,
-                    description: pub.description,
-                    price: pub.price,
-                    isbn: pub.isbn,
-                    format: pub.format,
-                    imageUrl: pub.coverImage
-                      ? urlFor(pub.coverImage).width(600).height(800).url()
-                      : undefined,
-                  }}
-                />
-              ),
+              }) => ({
+                _id: pub._id,
+                title: pub.title,
+                description: pub.description,
+                price: pub.price,
+                isbn: pub.isbn,
+                format: pub.format,
+                imageUrl: pub.coverImage
+                  ? urlFor(pub.coverImage).width(600).height(800).url()
+                  : undefined,
+              }),
             )}
-          </div>
+          />
         )}
       </div>
     );
