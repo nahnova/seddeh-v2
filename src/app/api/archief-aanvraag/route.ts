@@ -33,8 +33,7 @@ export async function POST(request: Request) {
     }
 
     const recipientEmail =
-      process.env.ARCHIVE_REQUEST_EMAIL ||
-      "info@stichting-eygelshovendoordeeeuwenheen.nl";
+      process.env.ARCHIVE_REQUEST_EMAIL || "info.seddeh@gmail.com";
 
     await resend.emails.send({
       from: "Archief Aanvraag <onboarding@resend.dev>",
