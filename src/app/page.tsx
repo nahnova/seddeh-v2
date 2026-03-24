@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { client } from "@/sanity/client";
 import { allNewsQuery, allEventsQuery } from "@/sanity/lib/queries";
 import { BookOpen, Calendar, Archive, Users, MapPin } from "lucide-react";
+import { HeroCarousel } from "@/components/HeroCarousel";
 
 export const revalidate = 60;
 
@@ -68,63 +68,9 @@ export default async function HomePage() {
   return (
     <>
       {/* ============================================================ */}
-      {/*  HERO — Dark blue with subtle radial glow                    */}
+      {/*  HERO — Carousel with historical sfeerbeelden                */}
       {/* ============================================================ */}
-      <section className="relative overflow-hidden bg-primary-dark py-24 text-white sm:py-32">
-        {/* Subtle radial glow behind the wapen */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 50% 60% at 50% 40%, rgba(214,169,67,0.08) 0%, transparent 70%)",
-          }}
-        />
-
-        <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
-          <Image
-            src="/wapen.png"
-            alt="Wapen van Eygelshoven"
-            width={80}
-            height={96}
-            className="mx-auto mb-8 h-20 w-auto drop-shadow-lg sm:h-24"
-            priority
-          />
-
-          <h1 className="font-serif text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-            Eygelshoven
-            <br />
-            <span className="text-gold">door de Eeuwen Heen</span>
-          </h1>
-
-          {/* Decorative gold divider */}
-          <div className="mx-auto mt-6 flex items-center justify-center gap-2">
-            <span className="block h-px w-8 bg-gold/40" />
-            <span className="block h-1.5 w-1.5 rotate-45 bg-gold" />
-            <span className="block h-px w-8 bg-gold/40" />
-          </div>
-
-          <p className="mx-auto mt-6 max-w-2xl font-serif text-lg leading-relaxed text-white/80 sm:text-xl">
-            Wij verzamelen, bewaren en ontsluiten de rijke historie van
-            Eygelshoven. Opgericht in 1981 ter gelegenheid van het 850-jarig
-            bestaan van ons dorp.
-          </p>
-
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link
-              href="/de-stichting"
-              className="rounded-sm border-2 border-gold bg-gold px-7 py-3 font-serif text-sm font-semibold tracking-wide text-primary-dark transition-colors hover:bg-gold-light hover:border-gold-light"
-            >
-              Ontdek onze geschiedenis
-            </Link>
-            <Link
-              href="/archief-aanvraag"
-              className="rounded-sm border-2 border-white/30 px-7 py-3 font-serif text-sm font-semibold tracking-wide text-white transition-colors hover:border-white/60 hover:bg-white/10"
-            >
-              Archief aanvragen
-            </Link>
-          </div>
-        </div>
-      </section>
+      <HeroCarousel />
 
       {/* ============================================================ */}
       {/*  FEATURES — Four pillars of the foundation                   */}
