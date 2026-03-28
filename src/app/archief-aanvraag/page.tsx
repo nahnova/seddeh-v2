@@ -31,6 +31,39 @@ const breadcrumbJsonLd = {
   ],
 };
 
+const archiveCollections = [
+  {
+    title: "Genealogische collectie",
+    description:
+      "Stambomen, doopregisters, trouwakten en overlijdensakten van Eygelshovense families. Bidprentjes en rouwkaarten.",
+  },
+  {
+    title: "Foto- en beeldarchief",
+    description:
+      "Duizenden historische foto's van Eygelshoven: straatbeelden, portretten, luchtfoto's, schoolfoto's en evenementen.",
+  },
+  {
+    title: "Mijnarchief",
+    description:
+      "Documentatie over de mijnbouw in Eygelshoven en omgeving: personeelskaarten, bedrijfsfoto's, kaarten en rapporten.",
+  },
+  {
+    title: "Kaarten en plattegronden",
+    description:
+      "Historische kaarten, kadasterkaarten en plattegronden van Eygelshoven door de eeuwen heen.",
+  },
+  {
+    title: "Krantenknipsels en publicaties",
+    description:
+      "Verzameling krantenartikelen, tijdschriften en publicaties over de geschiedenis van Eygelshoven en Zuid-Limburg.",
+  },
+  {
+    title: "Kerkelijk archief",
+    description:
+      "Documenten over de parochie, kerkgebouwen, processies en het religieuze leven in Eygelshoven.",
+  },
+];
+
 export default function ArchiefAanvraagPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
@@ -39,6 +72,31 @@ export default function ArchiefAanvraagPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <PageHeading title="Archief Aanvraag" />
+
+      {/* Archive overview */}
+      <div className="mb-10">
+        <p className="font-serif text-lg leading-relaxed text-text-light">
+          Het archief van Stichting Eygelshoven door de Eeuwen Heen bevat een
+          uitgebreide collectie bronnen over de geschiedenis van Eygelshoven.
+          Hieronder vindt u een overzicht van wat er beschikbaar is.
+        </p>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {archiveCollections.map((col) => (
+            <div
+              key={col.title}
+              className="rounded-sm border border-border bg-white p-5"
+            >
+              <h3 className="font-serif text-sm font-semibold text-primary-dark">
+                {col.title}
+              </h3>
+              <p className="mt-1 font-serif text-sm leading-relaxed text-text-light">
+                {col.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="rounded-sm border border-gold/50 bg-cream-dark p-6">
         <h2 className="font-serif text-lg font-semibold text-primary-dark">
