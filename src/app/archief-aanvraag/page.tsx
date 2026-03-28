@@ -1,4 +1,10 @@
 import type { Metadata } from "next";
+import { client } from "@/sanity/client";
+import {
+  pageBySlugQuery,
+  allArchiveCollectionsQuery,
+} from "@/sanity/lib/queries";
+import { PortableText } from "@/components/PortableText";
 import { ArchiefAanvraagForm } from "@/components/ArchiefAanvraagForm";
 import { PageHeading } from "@/components/PageHeading";
 
@@ -12,6 +18,8 @@ export const metadata: Metadata = {
       "Vraag toegang aan tot het historisch archief van Stichting Eygelshoven door de Eeuwen Heen. Ons archief bevat unieke bronnen over de geschiedenis van Eygelshoven.",
   },
 };
+
+export const revalidate = 60;
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
@@ -31,40 +39,16 @@ const breadcrumbJsonLd = {
   ],
 };
 
-const archiveCollections = [
-  {
-    title: "Genealogische collectie",
-    description:
-      "Stambomen, doopregisters, trouwakten en overlijdensakten van Eygelshovense families. Bidprentjes en rouwkaarten.",
-  },
-  {
-    title: "Foto- en beeldarchief",
-    description:
-      "Duizenden historische foto's van Eygelshoven: straatbeelden, portretten, luchtfoto's, schoolfoto's en evenementen.",
-  },
-  {
-    title: "Mijnarchief",
-    description:
-      "Documentatie over de mijnbouw in Eygelshoven en omgeving: personeelskaarten, bedrijfsfoto's, kaarten en rapporten.",
-  },
-  {
-    title: "Kaarten en plattegronden",
-    description:
-      "Historische kaarten, kadasterkaarten en plattegronden van Eygelshoven door de eeuwen heen.",
-  },
-  {
-    title: "Krantenknipsels en publicaties",
-    description:
-      "Verzameling krantenartikelen, tijdschriften en publicaties over de geschiedenis van Eygelshoven en Zuid-Limburg.",
-  },
-  {
-    title: "Kerkelijk archief",
-    description:
-      "Documenten over de parochie, kerkgebouwen, processies en het religieuze leven in Eygelshoven.",
-  },
-];
+export default async function ArchiefAanvraagPage() {
+  const [page, collections] = await Promise.all([
+    client.fetch(pageBySlugQuery, { slug: "archief-aanvraag" }).catch(() => null),
+    client
+      .fetch<{ _id: string; title: string; description?: string }[]>(
+        allArchiveCollectionsQuery,
+      )
+      .catch(() => []),
+  ]);
 
-export default function ArchiefAanvraagPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
       <script
@@ -73,30 +57,35 @@ export default function ArchiefAanvraagPage() {
       />
       <PageHeading title="Archief Aanvraag" />
 
-      {/* Archive overview */}
-      <div className="mb-10">
-        <p className="font-serif text-lg leading-relaxed text-text-light">
-          Het archief van Stichting Eygelshoven door de Eeuwen Heen bevat een
-          uitgebreide collectie bronnen over de geschiedenis van Eygelshoven.
-          Hieronder vindt u een overzicht van wat er beschikbaar is.
-        </p>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {archiveCollections.map((col) => (
-            <div
-              key={col.title}
-              className="rounded-sm border border-border bg-white p-5"
-            >
-              <h3 className="font-serif text-sm font-semibold text-primary-dark">
-                {col.title}
-              </h3>
-              <p className="mt-1 font-serif text-sm leading-relaxed text-text-light">
-                {col.description}
-              </p>
-            </div>
-          ))}
+      {/* Editable intro text from Sanity */}
+      {page?.body && (
+        <div className="mb-10 max-w-3xl">
+          <PortableText value={page.body} />
         </div>
-      </div>
+      )}
+
+      {/* Archive collections from Sanity */}
+      {collections.length > 0 && (
+        <div className="mb-10">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {collections.map((col) => (
+              <div
+                key={col._id}
+                className="rounded-sm border border-border bg-white p-5"
+              >
+                <h3 className="font-serif text-sm font-semibold text-primary-dark">
+                  {col.title}
+                </h3>
+                {col.description && (
+                  <p className="mt-1 font-serif text-sm leading-relaxed text-text-light">
+                    {col.description}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="rounded-sm border border-gold/50 bg-cream-dark p-6">
         <h2 className="font-serif text-lg font-semibold text-primary-dark">

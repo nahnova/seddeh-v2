@@ -134,6 +134,12 @@ export const allPublicationsQuery = groq`*[_type == "publication"]{
   file
 }`;
 
+export const allArchiveCollectionsQuery = groq`*[_type == "archiveCollection"] | order(order asc){
+  _id,
+  title,
+  description
+}`;
+
 export const allLibraryItemsQuery = groq`*[_type == "libraryItem"] | order(title asc){
   _id,
   title,
