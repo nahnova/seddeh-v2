@@ -18,15 +18,11 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
   const images = sanityImages && sanityImages.length > 0 ? sanityImages : fallbackImages;
 
   const [current, setCurrent] = useState(0);
-  const [previous, setPrevious] = useState<number | null>(null);
   const paused = useRef(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const advance = useCallback(() => {
-    setCurrent((prev) => {
-      setPrevious(prev);
-      return (prev + 1) % images.length;
-    });
+    setCurrent((prev) => (prev + 1) % images.length);
   }, [images.length]);
 
   /* Auto-advance timer */
@@ -39,16 +35,8 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
     };
   }, [advance]);
 
-  /* Clear "previous" after transition completes */
-  useEffect(() => {
-    if (previous === null) return;
-    const t = setTimeout(() => setPrevious(null), 800);
-    return () => clearTimeout(t);
-  }, [previous]);
-
   function goTo(index: number) {
     if (index === current) return;
-    setPrevious(current);
     setCurrent(index);
   }
 
@@ -58,12 +46,10 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
       onMouseEnter={() => (paused.current = true)}
       onMouseLeave={() => (paused.current = false)}
     >
-      {/* ── Image layers (only render active + previous for performance) */}
+      {/* ── Image layers ─────────────────────────────── */}
       <div className="absolute inset-0">
         {images.map((img, i) => {
           const isActive = i === current;
-          const isPrev = i === previous;
-          if (!isActive && !isPrev) return null;
           return (
             <div
               key={img.url}
@@ -71,7 +57,7 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
               style={{
                 opacity: isActive ? 1 : 0,
                 zIndex: isActive ? 2 : 1,
-                transition: isActive ? "opacity 0.8s ease-in-out" : "none",
+                transition: "opacity 0.8s ease-in-out",
               }}
             >
               <Image
