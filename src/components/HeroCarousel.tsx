@@ -33,7 +33,7 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
   useEffect(() => {
     timerRef.current = setInterval(() => {
       if (!paused.current) advance();
-    }, 6000);
+    }, 3000);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
@@ -42,7 +42,7 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
   /* Clear "previous" after transition completes */
   useEffect(() => {
     if (previous === null) return;
-    const t = setTimeout(() => setPrevious(null), 1200);
+    const t = setTimeout(() => setPrevious(null), 800);
     return () => clearTimeout(t);
   }, [previous]);
 
@@ -71,7 +71,7 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
               style={{
                 opacity: isActive ? 1 : 0,
                 zIndex: isActive ? 2 : 1,
-                transition: isActive ? "opacity 1.2s ease-in-out" : "none",
+                transition: isActive ? "opacity 0.8s ease-in-out" : "none",
               }}
             >
               <Image
@@ -82,7 +82,7 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
                 className="object-cover"
                 style={{
                   animation: isActive
-                    ? "hero-ken-burns 7s ease-out forwards"
+                    ? "hero-ken-burns 3.5s ease-out forwards"
                     : "none",
                 }}
                 priority={i < 2}
