@@ -6,11 +6,13 @@ import {
   allBoardMembersQuery,
   allMonumentsQuery,
   allPublicationsQuery,
+  allLibraryItemsQuery,
 } from "@/sanity/lib/queries";
 import { PortableText } from "@/components/PortableText";
 import { urlFor } from "@/sanity/image";
 import { PageHeading } from "@/components/PageHeading";
 import { PublicationShop } from "@/components/PublicationShop";
+import { BibliotheekCatalogus } from "@/components/BibliotheekCatalogus";
 import Image from "next/image";
 import { Navigation } from "lucide-react";
 
@@ -263,6 +265,68 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                 format: pub.format,
                 imageUrl: pub.coverImage
                   ? urlFor(pub.coverImage).width(600).height(800).url()
+                  : undefined,
+              }),
+            )}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // Special page: Bibliotheek
+  if (slug === "bibliotheek") {
+    const libraryItems = await client
+      .fetch(allLibraryItemsQuery)
+      .catch(() => []);
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <BreadcrumbJsonLd title="Bibliotheek" slug="bibliotheek" />
+        <PageHeading
+          title="Bibliotheek"
+          backHref="/de-stichting"
+          backLabel="De Stichting"
+        />
+
+        {page?.body && (
+          <div className="mb-6 max-w-3xl">
+            <PortableText value={page.body} />
+          </div>
+        )}
+
+        {/* Info note */}
+        <div className="mb-8 rounded-sm border border-gold/30 bg-cream px-5 py-3">
+          <p className="font-serif text-sm text-text-light">
+            Onze bibliotheek is toegankelijk op afspraak bij De Laethof,
+            Putstraat 17 te Eygelshoven. Klik op &ldquo;Inzage aanvragen&rdquo;
+            om een afspraak te maken voor een specifiek boek.
+          </p>
+        </div>
+
+        {libraryItems.length > 0 && (
+          <BibliotheekCatalogus
+            items={libraryItems.map(
+              (item: {
+                _id: string;
+                title: string;
+                author?: string;
+                year?: string;
+                category?: string;
+                description?: string;
+                isbn?: string;
+                format?: string;
+                coverImage?: { asset: { _ref: string } };
+              }) => ({
+                _id: item._id,
+                title: item.title,
+                author: item.author,
+                year: item.year,
+                category: item.category,
+                description: item.description,
+                isbn: item.isbn,
+                format: item.format,
+                imageUrl: item.coverImage
+                  ? urlFor(item.coverImage).width(600).height(800).url()
                   : undefined,
               }),
             )}

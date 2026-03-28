@@ -54,6 +54,11 @@ const subpages = [
     slug: "monumenten",
     description: "Historische monumenten in Eygelshoven",
   },
+  {
+    title: "Bibliotheek",
+    slug: "bibliotheek",
+    description: "Catalogus van onze boekcollectie",
+  },
 ];
 
 const breadcrumbJsonLd = {

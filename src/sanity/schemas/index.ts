@@ -11,6 +11,7 @@ import { member } from "./member";
 import { monument } from "./monument";
 import { siteSettings } from "./site-settings";
 import { publication } from "./publication";
+import { libraryItem } from "./library-item";
 
 export const schemaTypes = [
   page,
@@ -26,4 +27,5 @@ export const schemaTypes = [
   monument,
   siteSettings,
   publication,
+  libraryItem,
 ];

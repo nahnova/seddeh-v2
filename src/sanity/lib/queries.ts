@@ -133,3 +133,15 @@ export const allPublicationsQuery = groq`*[_type == "publication"]{
   coverImage,
   file
 }`;
+
+export const allLibraryItemsQuery = groq`*[_type == "libraryItem"] | order(title asc){
+  _id,
+  title,
+  author,
+  year,
+  category,
+  description,
+  isbn,
+  format,
+  coverImage
+}`;
