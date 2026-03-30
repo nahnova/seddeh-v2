@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Check, Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -10,6 +11,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export interface Publication {
   _id: string;
   title: string;
+  slug?: string;
   description?: string;
   price?: number;
   isbn?: string;
@@ -158,7 +160,7 @@ function ProductCard({
     >
       {/* Cover image */}
       {pub.imageUrl ? (
-        <div className="relative aspect-[3/4] overflow-hidden bg-cream-dark">
+        <Link href={pub.slug ? `/de-stichting/publicaties/${pub.slug}` : "#"} className="relative aspect-[3/4] overflow-hidden bg-cream-dark block">
           <Image
             src={pub.imageUrl}
             alt={pub.title}
@@ -171,18 +173,18 @@ function ProductCard({
               <Check size={14} className="text-primary-dark" strokeWidth={3} />
             </div>
           )}
-        </div>
+        </Link>
       ) : (
-        <div className="flex aspect-[3/4] items-center justify-center bg-cream-dark">
+        <Link href={pub.slug ? `/de-stichting/publicaties/${pub.slug}` : "#"} className="flex aspect-[3/4] items-center justify-center bg-cream-dark">
           <ShoppingBag className="h-12 w-12 text-gold/30" />
-        </div>
+        </Link>
       )}
 
       {/* Content */}
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-serif text-base font-semibold leading-snug text-text sm:text-lg">
+        <Link href={pub.slug ? `/de-stichting/publicaties/${pub.slug}` : "#"} className="font-serif text-base font-semibold leading-snug text-text hover:text-primary sm:text-lg">
           {pub.title}
-        </h3>
+        </Link>
 
         {/* Metadata pills */}
         <div className="mt-2 flex flex-wrap gap-1.5">
@@ -199,10 +201,21 @@ function ProductCard({
         </div>
 
         {pub.description && (
-          <p className="mt-3 flex-1 font-serif text-sm leading-relaxed text-text-light line-clamp-4">
+          <p className="mt-3 font-serif text-sm leading-relaxed text-text-light line-clamp-3">
             {pub.description}
           </p>
         )}
+
+        {pub.slug && (
+          <Link
+            href={`/de-stichting/publicaties/${pub.slug}`}
+            className="mt-2 inline-block font-serif text-sm font-semibold text-primary hover:text-primary-dark"
+          >
+            Lees meer &rarr;
+          </Link>
+        )}
+
+        <div className="flex-1" />
 
         {/* Price + add/qty */}
         <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-4">

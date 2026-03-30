@@ -12,6 +12,13 @@ export const publication = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "author",
       title: "Auteur",
       type: "string",
@@ -23,9 +30,15 @@ export const publication = defineType({
     }),
     defineField({
       name: "description",
-      title: "Beschrijving",
+      title: "Korte beschrijving",
       type: "text",
       rows: 3,
+    }),
+    defineField({
+      name: "body",
+      title: "Uitgebreide beschrijving",
+      type: "array",
+      of: [{ type: "block" }, { type: "image", options: { hotspot: true } }],
     }),
     defineField({
       name: "price",

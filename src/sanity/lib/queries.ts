@@ -124,9 +124,25 @@ export const allMembersQuery = groq`*[_type == "member"] | order(order asc){
 export const allPublicationsQuery = groq`*[_type == "publication"]{
   _id,
   title,
+  slug,
   author,
   year,
   description,
+  price,
+  isbn,
+  format,
+  coverImage,
+  file
+}`;
+
+export const publicationBySlugQuery = groq`*[_type == "publication" && slug.current == $slug][0]{
+  _id,
+  title,
+  slug,
+  author,
+  year,
+  description,
+  body,
   price,
   isbn,
   format,

@@ -251,6 +251,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
               (pub: {
                 _id: string;
                 title: string;
+                slug?: { current: string };
                 description?: string;
                 price?: number;
                 isbn?: string;
@@ -259,6 +260,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
               }) => ({
                 _id: pub._id,
                 title: pub.title,
+                slug: pub.slug?.current,
                 description: pub.description,
                 price: pub.price,
                 isbn: pub.isbn,
