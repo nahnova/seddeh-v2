@@ -55,7 +55,7 @@ const subpages = [
     description: "Historische monumenten in Eygelshoven",
   },
   {
-    title: "Bibliotheek",
+    title: "Boekenarchief",
     slug: "bibliotheek",
     description: "Catalogus van onze boekcollectie",
   },

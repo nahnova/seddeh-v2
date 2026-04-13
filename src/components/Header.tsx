@@ -22,7 +22,7 @@ const navigation = [
         href: "/de-stichting/het-wapen-van-eygelshoven",
       },
       { name: "Monumenten", href: "/de-stichting/monumenten" },
-      { name: "Bibliotheek", href: "/de-stichting/bibliotheek" },
+      { name: "Boekenarchief", href: "/de-stichting/bibliotheek" },
     ],
   },
   { name: "Nieuws", href: "/nieuws" },

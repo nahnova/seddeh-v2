@@ -283,9 +283,9 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
       .catch(() => []);
     return (
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <BreadcrumbJsonLd title="Bibliotheek" slug="bibliotheek" />
+        <BreadcrumbJsonLd title="Boekenarchief" slug="bibliotheek" />
         <PageHeading
-          title="Bibliotheek"
+          title="Boekenarchief"
           backHref="/de-stichting"
           backLabel="De Stichting"
         />
@@ -299,7 +299,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
         {/* Info note */}
         <div className="mb-8 rounded-sm border border-gold/30 bg-cream px-5 py-3">
           <p className="font-serif text-sm text-text-light">
-            Onze bibliotheek is toegankelijk op afspraak bij De Laethof,
+            Ons boekenarchief is toegankelijk op afspraak bij De Laethof,
             Putstraat 17 te Eygelshoven. Klik op &ldquo;Inzage aanvragen&rdquo;
             om een afspraak te maken voor een specifiek boek.
           </p>
