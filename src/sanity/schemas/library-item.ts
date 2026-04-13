@@ -2,9 +2,16 @@ import { defineField, defineType } from "sanity";
 
 export const libraryItem = defineType({
   name: "libraryItem",
-  title: "Bibliotheek Item",
+  title: "Boekenarchief Item",
   type: "document",
   fields: [
+    defineField({
+      name: "bookNumber",
+      title: "Boeknummer",
+      type: "string",
+      description: "Uniek catalogusnummer, bijv. AC001, LH042",
+      validation: (rule) => rule.required(),
+    }),
     defineField({
       name: "title",
       title: "Titel",
@@ -23,16 +30,28 @@ export const libraryItem = defineType({
     }),
     defineField({
       name: "category",
-      title: "Categorie",
+      title: "Rubriek",
       type: "string",
       options: {
         list: [
-          { title: "Heemkunde", value: "heemkunde" },
+          { title: "Archeologie", value: "archeologie" },
+          { title: "Archieven", value: "archieven" },
+          { title: "Dialecten", value: "dialecten" },
+          { title: "Eygelshoven/Kerkrade Gemeente", value: "eygelshoven-gemeente" },
+          { title: "Eygelshoven Historie", value: "eygelshoven-historie" },
+          { title: "Eygelshoven Parochies", value: "eygelshoven-parochies" },
+          { title: "Eygelshoven Verenigingen", value: "eygelshoven-verenigingen" },
+          { title: "Godsdienst", value: "godsdienst" },
           { title: "Genealogie", value: "genealogie" },
-          { title: "Mijngeschiedenis", value: "mijngeschiedenis" },
-          { title: "Dialect", value: "dialect" },
-          { title: "Religie", value: "religie" },
-          { title: "Overig", value: "overig" },
+          { title: "Hopel", value: "hopel" },
+          { title: "Limburg Historie", value: "limburg-historie" },
+          { title: "Mijnbouw Algemeen", value: "mijnbouw-algemeen" },
+          { title: "Mijnbouw Laura & Vereeniging", value: "mijnbouw-laura-vereeniging" },
+          { title: "Oorlog", value: "oorlog" },
+          { title: "Onderwijs", value: "onderwijs" },
+          { title: "Paleografie", value: "paleografie" },
+          { title: "Regio Historie", value: "regio-historie" },
+          { title: "Diverse onderwerpen", value: "diverse" },
         ],
       },
     }),
@@ -60,7 +79,26 @@ export const libraryItem = defineType({
       options: { hotspot: true },
     }),
   ],
+  orderings: [
+    {
+      title: "Boeknummer",
+      name: "bookNumberAsc",
+      by: [{ field: "bookNumber", direction: "asc" }],
+    },
+  ],
   preview: {
-    select: { title: "title", subtitle: "author", media: "coverImage" },
+    select: {
+      title: "title",
+      bookNumber: "bookNumber",
+      author: "author",
+      media: "coverImage",
+    },
+    prepare({ title, bookNumber, author, media }) {
+      return {
+        title: `${bookNumber || "?"} — ${title}`,
+        subtitle: author,
+        media,
+      };
+    },
   },
 });

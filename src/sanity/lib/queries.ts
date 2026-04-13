@@ -156,8 +156,9 @@ export const allArchiveCollectionsQuery = groq`*[_type == "archiveCollection"] |
   description
 }`;
 
-export const allLibraryItemsQuery = groq`*[_type == "libraryItem"] | order(title asc){
+export const allLibraryItemsQuery = groq`*[_type == "libraryItem"] | order(bookNumber asc){
   _id,
+  bookNumber,
   title,
   author,
   year,

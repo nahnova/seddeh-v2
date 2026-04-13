@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface LibraryItem {
   _id: string;
+  bookNumber?: string;
   title: string;
   author?: string;
   year?: string;
@@ -17,12 +18,24 @@ export interface LibraryItem {
 }
 
 const categoryLabels: Record<string, string> = {
-  heemkunde: "Heemkunde",
+  archeologie: "Archeologie",
+  archieven: "Archieven",
+  dialecten: "Dialecten",
+  "eygelshoven-gemeente": "Eygelshoven/Kerkrade Gemeente",
+  "eygelshoven-historie": "Eygelshoven Historie",
+  "eygelshoven-parochies": "Eygelshoven Parochies",
+  "eygelshoven-verenigingen": "Eygelshoven Verenigingen",
+  godsdienst: "Godsdienst",
   genealogie: "Genealogie",
-  mijngeschiedenis: "Mijngeschiedenis",
-  dialect: "Dialect",
-  religie: "Religie",
-  overig: "Overig",
+  hopel: "Hopel",
+  "limburg-historie": "Limburg Historie",
+  "mijnbouw-algemeen": "Mijnbouw Algemeen",
+  "mijnbouw-laura-vereeniging": "Mijnbouw Laura & Vereeniging",
+  oorlog: "Oorlog",
+  onderwijs: "Onderwijs",
+  paleografie: "Paleografie",
+  "regio-historie": "Regio Historie",
+  diverse: "Diverse onderwerpen",
 };
 
 export function BibliotheekCatalogus({ items }: { items: LibraryItem[] }) {
@@ -41,6 +54,7 @@ export function BibliotheekCatalogus({ items }: { items: LibraryItem[] }) {
     const matchesQuery =
       item.title.toLowerCase().includes(q) ||
       item.author?.toLowerCase().includes(q) ||
+      item.bookNumber?.toLowerCase().includes(q) ||
       item.description?.toLowerCase().includes(q) ||
       item.isbn?.toLowerCase().includes(q);
     return matchesCategory && matchesQuery;
@@ -155,6 +169,11 @@ function LibraryCard({
       )}
 
       <div className="flex flex-1 flex-col p-5">
+        {item.bookNumber && (
+          <span className="mb-1 font-sans text-[10px] font-bold uppercase tracking-wider text-gold">
+            {item.bookNumber}
+          </span>
+        )}
         <h3 className="font-serif text-base font-semibold leading-snug text-text sm:text-lg">
           {item.title}
         </h3>

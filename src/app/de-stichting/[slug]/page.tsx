@@ -310,6 +310,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
             items={libraryItems.map(
               (item: {
                 _id: string;
+                bookNumber?: string;
                 title: string;
                 author?: string;
                 year?: string;
@@ -320,6 +321,7 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
                 coverImage?: { asset: { _ref: string } };
               }) => ({
                 _id: item._id,
+                bookNumber: item.bookNumber,
                 title: item.title,
                 author: item.author,
                 year: item.year,
