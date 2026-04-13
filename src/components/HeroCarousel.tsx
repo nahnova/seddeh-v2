@@ -79,7 +79,7 @@ export function HeroCarousel({ images: sanityImages }: { images?: HeroImage[] })
       </div>
 
       {/* ── Gradient overlays for text legibility ──────── */}
-      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-primary-dark/70 via-primary-dark/40 to-primary-dark/80" />
+      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-primary-dark/50 via-primary-dark/25 to-primary-dark/60" />
       <div
         className="pointer-events-none absolute inset-0 z-10"
         style={{
