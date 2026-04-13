@@ -33,15 +33,19 @@ export function ProtectedImage({
         height={height}
         className={`select-none pointer-events-none ${className ?? ""}`}
       />
-      {/* Overlay with logo watermark */}
-      <div className="absolute inset-0 flex items-end justify-end" aria-hidden="true">
-        <img
-          src="/logo.png"
-          alt=""
-          className="pointer-events-none m-2 h-6 w-auto select-none opacity-40"
-          draggable={false}
-        />
-      </div>
+      {/* Repeating watermark across entire image */}
+      <div
+        className="absolute inset-0 pointer-events-none select-none opacity-15"
+        aria-hidden="true"
+        style={{
+          backgroundImage: "url(/logo.png)",
+          backgroundSize: "140px auto",
+          backgroundRepeat: "repeat",
+          backgroundPosition: "center",
+          transform: "rotate(-25deg)",
+          scale: "1.5",
+        }}
+      />
     </div>
   );
 }
