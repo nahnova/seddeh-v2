@@ -276,14 +276,14 @@ export default async function DeStichtingSubPage({ params }: PageProps) {
     );
   }
 
-  // Special page: Bibliotheek
-  if (slug === "bibliotheek") {
+  // Special page: Boekenarchief
+  if (slug === "boekenarchief") {
     const libraryItems = await client
       .fetch(allLibraryItemsQuery)
       .catch(() => []);
     return (
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <BreadcrumbJsonLd title="Boekenarchief" slug="bibliotheek" />
+        <BreadcrumbJsonLd title="Boekenarchief" slug="boekenarchief" />
         <PageHeading
           title="Boekenarchief"
           backHref="/de-stichting"

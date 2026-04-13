@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       process.env.ARCHIVE_REQUEST_EMAIL || "info.seddeh@gmail.com";
 
     await resend.emails.send({
-      from: "Bibliotheek Inzage <onboarding@resend.dev>",
+      from: "Boekenarchief Inzage <onboarding@resend.dev>",
       to: [recipientEmail],
       replyTo: email,
       subject: `Inzage aanvraag: ${escapeHtml(boek)}`,

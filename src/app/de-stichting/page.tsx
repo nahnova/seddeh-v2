@@ -56,7 +56,7 @@ const subpages = [
   },
   {
     title: "Boekenarchief",
-    slug: "bibliotheek",
+    slug: "boekenarchief",
     description: "Catalogus van onze boekcollectie",
   },
 ];
