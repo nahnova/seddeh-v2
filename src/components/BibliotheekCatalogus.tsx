@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { BookOpen, Search, X } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { BookOpen, ChevronRight, Library, Search, X } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export interface LibraryItem {
   _id: string;
@@ -38,99 +37,278 @@ const categoryLabels: Record<string, string> = {
   diverse: "Diverse onderwerpen",
 };
 
+const ITEMS_PER_PAGE = 50;
+
 export function BibliotheekCatalogus({ items }: { items: LibraryItem[] }) {
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [requestItem, setRequestItem] = useState<LibraryItem | null>(null);
+  const [page, setPage] = useState(0);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const listRef = useRef<HTMLDivElement>(null);
 
-  const categories = Array.from(
-    new Set(items.map((i) => i.category).filter(Boolean)),
-  ) as string[];
+  // Count items per category
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const item of items) {
+      if (item.category) {
+        counts[item.category] = (counts[item.category] || 0) + 1;
+      }
+    }
+    return counts;
+  }, [items]);
 
-  const filtered = items.filter((item) => {
-    const matchesCategory = !activeCategory || item.category === activeCategory;
-    if (!query) return matchesCategory;
-    const q = query.toLowerCase();
-    const matchesQuery =
-      item.title.toLowerCase().includes(q) ||
-      item.author?.toLowerCase().includes(q) ||
-      item.bookNumber?.toLowerCase().includes(q) ||
-      item.description?.toLowerCase().includes(q) ||
-      item.isbn?.toLowerCase().includes(q);
-    return matchesCategory && matchesQuery;
-  });
+  const categories = useMemo(
+    () =>
+      Object.keys(categoryCounts).sort((a, b) =>
+        (categoryLabels[a] || a).localeCompare(categoryLabels[b] || b),
+      ),
+    [categoryCounts],
+  );
+
+  const filtered = useMemo(() => {
+    return items.filter((item) => {
+      const matchesCategory =
+        !activeCategory || item.category === activeCategory;
+      if (!query) return matchesCategory;
+      const q = query.toLowerCase();
+      const matchesQuery =
+        item.title.toLowerCase().includes(q) ||
+        item.author?.toLowerCase().includes(q) ||
+        item.bookNumber?.toLowerCase().includes(q) ||
+        item.description?.toLowerCase().includes(q) ||
+        item.isbn?.toLowerCase().includes(q);
+      return matchesCategory && matchesQuery;
+    });
+  }, [items, activeCategory, query]);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setPage(0);
+  }, [activeCategory, query]);
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const pageItems = filtered.slice(
+    page * ITEMS_PER_PAGE,
+    (page + 1) * ITEMS_PER_PAGE,
+  );
+
+  function goToPage(p: number) {
+    setPage(p);
+    listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function selectCategory(cat: string | null) {
+    setActiveCategory(cat);
+    setMobileSidebarOpen(false);
+  }
 
   return (
     <>
-      {/* Search + filter bar */}
-      <div className="mb-8 space-y-4">
-        <div className="relative">
-          <Search
+      <div className="lg:flex lg:gap-8" ref={listRef}>
+        {/* ── Sidebar ──────────────────────────────────── */}
+        {/* Mobile: toggle button */}
+        <button
+          onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+          className="mb-4 flex w-full items-center justify-between rounded-sm border border-border bg-white px-4 py-3 font-serif text-sm text-text transition-colors hover:border-gold lg:hidden"
+        >
+          <span className="flex items-center gap-2">
+            <Library size={16} className="text-gold" />
+            {activeCategory
+              ? categoryLabels[activeCategory] || activeCategory
+              : `Alle rubrieken (${items.length})`}
+          </span>
+          <ChevronRight
             size={16}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-text-light"
-            aria-hidden="true"
+            className={`text-text-light transition-transform ${mobileSidebarOpen ? "rotate-90" : ""}`}
           />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Zoek op titel, auteur of ISBN..."
-            className="w-full rounded-sm border border-border bg-white py-2.5 pl-10 pr-3 font-serif text-text shadow-sm placeholder:text-text-light/50 focus:border-gold focus:ring-1 focus:ring-gold"
-          />
-        </div>
+        </button>
 
-        {categories.length > 1 && (
-          <div className="flex flex-wrap gap-2">
+        {/* Sidebar content */}
+        <aside
+          className={`${mobileSidebarOpen ? "block" : "hidden"} mb-6 lg:sticky lg:top-24 lg:block lg:mb-0 lg:h-fit lg:w-64 lg:flex-shrink-0`}
+        >
+          <nav className="rounded-sm border border-border bg-white">
+            {/* Sidebar header */}
+            <div className="border-b border-border px-4 py-3">
+              <h2 className="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-light">
+                Rubrieken
+              </h2>
+            </div>
+
+            {/* "All" option */}
             <button
-              onClick={() => setActiveCategory(null)}
-              className={`rounded-sm px-3 py-1.5 font-sans text-xs font-medium uppercase tracking-wider transition-colors ${
+              onClick={() => selectCategory(null)}
+              className={`flex w-full items-center justify-between px-4 py-2.5 text-left font-serif text-sm transition-colors ${
                 !activeCategory
-                  ? "bg-gold text-primary-dark"
-                  : "bg-cream-dark text-text-light hover:bg-gold/20"
+                  ? "bg-cream-dark font-semibold text-primary-dark"
+                  : "text-text hover:bg-cream"
               }`}
             >
-              Alles
-            </button>
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() =>
-                  setActiveCategory(activeCategory === cat ? null : cat)
-                }
-                className={`rounded-sm px-3 py-1.5 font-sans text-xs font-medium uppercase tracking-wider transition-colors ${
-                  activeCategory === cat
-                    ? "bg-gold text-primary-dark"
-                    : "bg-cream-dark text-text-light hover:bg-gold/20"
-                }`}
+              <span>Alle boeken</span>
+              <span
+                className={`font-sans text-xs tabular-nums ${!activeCategory ? "font-bold text-gold" : "text-text-light"}`}
               >
-                {categoryLabels[cat] || cat}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+                {items.length}
+              </span>
+            </button>
 
-      {/* Results count */}
-      <p className="mb-4 font-serif text-sm text-text-light">
-        {filtered.length} {filtered.length === 1 ? "boek" : "boeken"} gevonden
-      </p>
+            {/* Category list */}
+            <div className="max-h-[60vh] overflow-y-auto border-t border-border/50 lg:max-h-[calc(100vh-16rem)]">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() =>
+                    selectCategory(activeCategory === cat ? null : cat)
+                  }
+                  className={`flex w-full items-center justify-between border-b border-border/30 px-4 py-2.5 text-left font-serif text-sm transition-colors last:border-b-0 ${
+                    activeCategory === cat
+                      ? "bg-cream-dark font-semibold text-primary-dark"
+                      : "text-text hover:bg-cream"
+                  }`}
+                >
+                  <span className="mr-2 leading-snug">
+                    {categoryLabels[cat] || cat}
+                  </span>
+                  <span
+                    className={`flex-shrink-0 font-sans text-xs tabular-nums ${activeCategory === cat ? "font-bold text-gold" : "text-text-light"}`}
+                  >
+                    {categoryCounts[cat]}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </nav>
+        </aside>
 
-      {/* Grid */}
-      {filtered.length === 0 ? (
-        <p className="py-12 text-center font-serif text-text-light">
-          Geen boeken gevonden voor uw zoekopdracht.
-        </p>
-      ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((item) => (
-            <LibraryCard
-              key={item._id}
-              item={item}
-              onRequest={() => setRequestItem(item)}
+        {/* ── Main content ─────────────────────────────── */}
+        <div className="min-w-0 flex-1">
+          {/* Search bar */}
+          <div className="relative mb-6">
+            <Search
+              size={18}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-text-light"
+              aria-hidden="true"
             />
-          ))}
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Zoek op titel, auteur of boeknummer..."
+              className="w-full rounded-sm border border-border bg-white py-3 pl-12 pr-10 font-serif text-text shadow-sm placeholder:text-text-light/50 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
+            />
+            {query && (
+              <button
+                onClick={() => setQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-text-light transition-colors hover:text-text"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+
+          {/* Results header */}
+          <div className="mb-4 flex items-baseline justify-between border-b border-border pb-3">
+            <p className="font-serif text-sm text-text-light">
+              <span className="font-semibold text-text">
+                {filtered.length}
+              </span>{" "}
+              {filtered.length === 1 ? "boek" : "boeken"}
+              {activeCategory &&
+                ` in ${categoryLabels[activeCategory] || activeCategory}`}
+              {query && ` voor "${query}"`}
+            </p>
+            {totalPages > 1 && (
+              <p className="font-sans text-xs text-text-light">
+                Pagina {page + 1} van {totalPages}
+              </p>
+            )}
+          </div>
+
+          {/* Item list */}
+          {filtered.length === 0 ? (
+            <div className="flex flex-col items-center py-16 text-center">
+              <Search size={32} className="mb-4 text-border" />
+              <p className="font-serif text-text-light">
+                Geen boeken gevonden.
+              </p>
+              <p className="mt-1 font-serif text-sm text-text-light/70">
+                Probeer een andere zoekterm of rubriek.
+              </p>
+            </div>
+          ) : (
+            <div className="divide-y divide-border/60 rounded-sm border border-border bg-white">
+              {/* Table header (desktop) */}
+              <div className="hidden items-center gap-4 bg-cream-dark/50 px-4 py-2 sm:flex">
+                <span className="w-20 flex-shrink-0 font-sans text-[10px] font-semibold uppercase tracking-wider text-text-light">
+                  Nr.
+                </span>
+                <span className="min-w-0 flex-1 font-sans text-[10px] font-semibold uppercase tracking-wider text-text-light">
+                  Titel &amp; Auteur
+                </span>
+                <span className="w-24 flex-shrink-0 text-right font-sans text-[10px] font-semibold uppercase tracking-wider text-text-light">
+                  Inzage
+                </span>
+              </div>
+
+              {pageItems.map((item) => (
+                <CatalogRow
+                  key={item._id}
+                  item={item}
+                  onRequest={() => setRequestItem(item)}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <nav
+              aria-label="Paginatie"
+              className="mt-6 flex items-center justify-center gap-1"
+            >
+              <button
+                onClick={() => goToPage(page - 1)}
+                disabled={page === 0}
+                className="rounded-sm border border-border px-3 py-2 font-serif text-sm text-text transition-colors hover:border-gold hover:bg-cream disabled:opacity-30 disabled:hover:border-border disabled:hover:bg-transparent"
+              >
+                Vorige
+              </button>
+
+              {paginationRange(page, totalPages).map((p, i) =>
+                p === "..." ? (
+                  <span
+                    key={`ellipsis-${i}`}
+                    className="px-1 font-serif text-sm text-text-light"
+                  >
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    key={p}
+                    onClick={() => goToPage(p as number)}
+                    className={`min-w-[2.25rem] rounded-sm border px-2 py-2 font-serif text-sm transition-colors ${
+                      page === p
+                        ? "border-gold bg-gold font-semibold text-primary-dark"
+                        : "border-border text-text hover:border-gold hover:bg-cream"
+                    }`}
+                  >
+                    {(p as number) + 1}
+                  </button>
+                ),
+              )}
+
+              <button
+                onClick={() => goToPage(page + 1)}
+                disabled={page >= totalPages - 1}
+                className="rounded-sm border border-border px-3 py-2 font-serif text-sm text-text transition-colors hover:border-gold hover:bg-cream disabled:opacity-30 disabled:hover:border-border disabled:hover:bg-transparent"
+              >
+                Volgende
+              </button>
+            </nav>
+          )}
         </div>
-      )}
+      </div>
 
       {/* Inzage modal */}
       {requestItem && (
@@ -143,7 +321,9 @@ export function BibliotheekCatalogus({ items }: { items: LibraryItem[] }) {
   );
 }
 
-function LibraryCard({
+/* ── Catalog row ───────────────────────────────── */
+
+function CatalogRow({
   item,
   onRequest,
 }: {
@@ -151,81 +331,70 @@ function LibraryCard({
   onRequest: () => void;
 }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-sm border border-border bg-white transition-all hover:border-gold hover:shadow-md">
-      {item.imageUrl ? (
-        <div className="relative aspect-[3/4] overflow-hidden bg-cream-dark">
-          <Image
-            src={item.imageUrl}
-            alt={item.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </div>
-      ) : (
-        <div className="flex aspect-[3/4] items-center justify-center bg-cream-dark">
-          <BookOpen className="h-12 w-12 text-gold/30" />
-        </div>
-      )}
+    <div className="group flex items-start gap-4 px-4 py-3 transition-colors hover:bg-cream/60 sm:items-center">
+      {/* Book number */}
+      <span className="w-20 flex-shrink-0 font-sans text-xs font-bold tabular-nums text-gold">
+        {item.bookNumber || "—"}
+      </span>
 
-      <div className="flex flex-1 flex-col p-5">
-        {item.bookNumber && (
-          <span className="mb-1 font-sans text-[10px] font-bold uppercase tracking-wider text-gold">
-            {item.bookNumber}
-          </span>
-        )}
-        <h3 className="font-serif text-base font-semibold leading-snug text-text sm:text-lg">
+      {/* Title + Author */}
+      <div className="min-w-0 flex-1">
+        <h3 className="font-serif text-sm font-medium leading-snug text-text sm:text-[0.9375rem]">
           {item.title}
         </h3>
-
-        {item.author && (
-          <p className="mt-1 font-serif text-sm text-text-light">
+        {item.author && item.author !== "NN" && (
+          <p className="mt-0.5 font-serif text-xs text-text-light">
             {item.author}
           </p>
         )}
-
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {item.category && (
-            <span className="rounded-sm bg-cream-dark px-2 py-0.5 font-sans text-[10px] font-medium uppercase tracking-wider text-text-light">
-              {categoryLabels[item.category] || item.category}
-            </span>
-          )}
-          {item.year && (
-            <span className="rounded-sm bg-cream-dark px-2 py-0.5 font-sans text-[10px] font-medium uppercase tracking-wider text-text-light">
-              {item.year}
-            </span>
-          )}
-          {item.format && (
-            <span className="rounded-sm bg-cream-dark px-2 py-0.5 font-sans text-[10px] font-medium uppercase tracking-wider text-text-light">
-              {item.format}
-            </span>
-          )}
-          {item.isbn && (
-            <span className="rounded-sm bg-cream-dark px-2 py-0.5 font-sans text-[10px] font-medium uppercase tracking-wider text-text-light">
-              ISBN {item.isbn}
-            </span>
-          )}
-        </div>
-
-        {item.description && (
-          <p className="mt-3 flex-1 font-serif text-sm leading-relaxed text-text-light line-clamp-3">
-            {item.description}
-          </p>
-        )}
-
-        <div className="mt-4 border-t border-border/60 pt-4">
-          <button
-            onClick={onRequest}
-            className="flex w-full items-center justify-center gap-2 rounded-sm bg-gold px-4 py-2 font-serif text-sm font-semibold text-primary-dark transition-colors hover:bg-gold-light"
-          >
-            <BookOpen size={14} />
-            Inzage aanvragen
-          </button>
-        </div>
       </div>
-    </article>
+
+      {/* Inzage button */}
+      <button
+        onClick={onRequest}
+        className="flex-shrink-0 rounded-sm border border-transparent px-3 py-1.5 font-serif text-xs font-medium text-gold opacity-0 transition-all hover:border-gold hover:bg-gold hover:text-primary-dark group-hover:opacity-100 sm:text-sm"
+        aria-label={`Inzage aanvragen voor ${item.title}`}
+      >
+        <span className="hidden sm:inline">Inzage</span>
+        <BookOpen size={14} className="sm:hidden" />
+      </button>
+    </div>
   );
 }
+
+/* ── Pagination helper ─────────────────────────── */
+
+function paginationRange(
+  current: number,
+  total: number,
+): (number | "...")[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i);
+
+  const pages: (number | "...")[] = [];
+
+  // Always show first page
+  pages.push(0);
+
+  if (current > 2) pages.push("...");
+
+  // Pages around current
+  for (
+    let i = Math.max(1, current - 1);
+    i <= Math.min(total - 2, current + 1);
+    i++
+  ) {
+    pages.push(i);
+  }
+
+  if (current < total - 3) pages.push("...");
+
+  // Always show last page
+  pages.push(total - 1);
+
+  return pages;
+}
+
+/* ── Inzage modal (unchanged) ──────────────────── */
 
 function InzageModal({
   item,
@@ -240,7 +409,6 @@ function InzageModal({
   const [errorMessage, setErrorMessage] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Focus trap
   useEffect(() => {
     const modal = modalRef.current;
     if (!modal) return;
@@ -365,9 +533,13 @@ function InzageModal({
             </div>
           ) : (
             <>
-              {/* Book info */}
               <div className="mb-6 rounded-sm border border-border bg-cream p-4">
                 <p className="font-serif text-sm font-semibold text-text">
+                  {item.bookNumber && (
+                    <span className="mr-2 font-sans text-xs font-bold text-gold">
+                      {item.bookNumber}
+                    </span>
+                  )}
                   {item.title}
                 </p>
                 {item.author && (
@@ -428,7 +600,6 @@ function InzageModal({
                   />
                 </div>
 
-                {/* Honeypot */}
                 <div className="absolute -left-[9999px]" aria-hidden="true">
                   <label htmlFor="inzage-website">Website</label>
                   <input
@@ -461,9 +632,7 @@ function InzageModal({
                   disabled={status === "loading"}
                   className="w-full rounded-sm bg-gold px-6 py-3 font-serif text-sm font-semibold text-primary-dark transition-colors hover:bg-gold-light disabled:opacity-50"
                 >
-                  {status === "loading"
-                    ? "Verzenden..."
-                    : "Inzage aanvragen"}
+                  {status === "loading" ? "Verzenden..." : "Inzage aanvragen"}
                 </button>
               </form>
             </>
