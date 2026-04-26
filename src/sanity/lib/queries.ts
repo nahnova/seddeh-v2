@@ -30,7 +30,8 @@ export const navigationPagesQuery = groq`*[
 ] | order(coalesce(order, 9999) asc, title asc){
   title,
   slug,
-  description
+  description,
+  order
 }`;
 
 export const allNewsQuery = groq`*[_type == "news"] | order(publishedAt desc){

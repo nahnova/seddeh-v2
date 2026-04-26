@@ -1,17 +1,8 @@
-import { client } from "@/sanity/client";
-import { navigationPagesQuery } from "@/sanity/lib/queries";
+import { getDeStichtingNavItems } from "@/sanity/lib/nav";
 import { HeaderClient, type NavItem } from "./HeaderClient";
 
-type SanityNavPage = {
-  title: string;
-  slug: { current: string };
-  description?: string;
-};
-
 export async function Header() {
-  const deStichtingPages: SanityNavPage[] = await client
-    .fetch<SanityNavPage[]>(navigationPagesQuery)
-    .catch(() => []);
+  const deStichtingPages = await getDeStichtingNavItems();
 
   const navigation: NavItem[] = [
     { name: "Home", href: "/" },
@@ -20,7 +11,7 @@ export async function Header() {
       href: "/de-stichting",
       children: deStichtingPages.map((page) => ({
         name: page.title,
-        href: `/de-stichting/${page.slug.current}`,
+        href: `/de-stichting/${page.slug}`,
       })),
     },
     { name: "Nieuws", href: "/nieuws" },
