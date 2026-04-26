@@ -17,7 +17,20 @@ export const pageBySlugQuery = groq`*[_type == "page" && slug.current == $slug][
 
 export const allPagesQuery = groq`*[_type == "page"]{
   title,
-  slug
+  slug,
+  description,
+  order,
+  showInNavigation
+}`;
+
+export const navigationPagesQuery = groq`*[
+  _type == "page"
+  && slug.current != "de-stichting"
+  && showInNavigation != false
+] | order(coalesce(order, 9999) asc, title asc){
+  title,
+  slug,
+  description
 }`;
 
 export const allNewsQuery = groq`*[_type == "news"] | order(publishedAt desc){

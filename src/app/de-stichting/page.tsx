@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { client } from "@/sanity/client";
-import { pageBySlugQuery } from "@/sanity/lib/queries";
+import { pageBySlugQuery, navigationPagesQuery } from "@/sanity/lib/queries";
 import { PortableText } from "@/components/PortableText";
 import { PageHeading } from "@/components/PageHeading";
+
+type Subpage = {
+  title: string;
+  slug: { current: string };
+  description?: string;
+};
 
 export const metadata: Metadata = {
   title: "De Stichting",
@@ -18,48 +24,16 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
-const subpages = [
-  {
-    title: "Wat is De Laethof",
-    slug: "wat-is-de-laethof",
-    description: "Informatie over ons onderkomen",
-  },
-  {
-    title: "Het Bestuur",
-    slug: "het-bestuur",
-    description: "De bestuursleden van de stichting",
-  },
-  {
-    title: "De Doelstellingen",
-    slug: "de-doelstellingen",
-    description: "Onze missie en doelen",
-  },
-  {
-    title: "Publicaties",
-    slug: "publicaties",
-    description: "Uitgaven en publicaties",
-  },
-  {
-    title: "Geschiedenis",
-    slug: "geschiedenis",
-    description: "Historische achtergrond",
-  },
-  {
-    title: "Het Wapen van Eygelshoven",
-    slug: "het-wapen-van-eygelshoven",
-    description: "Het gemeentewapen",
-  },
-  {
-    title: "Monumenten",
-    slug: "monumenten",
-    description: "Historische monumenten in Eygelshoven",
-  },
-  {
-    title: "Boekenarchief",
-    slug: "boekenarchief",
-    description: "Catalogus van onze boekcollectie",
-  },
-];
+const fallbackDescriptions: Record<string, string> = {
+  "wat-is-de-laethof": "Informatie over ons onderkomen",
+  "het-bestuur": "De bestuursleden van de stichting",
+  "de-doelstellingen": "Onze missie en doelen",
+  publicaties: "Uitgaven en publicaties",
+  geschiedenis: "Historische achtergrond",
+  "het-wapen-van-eygelshoven": "Het gemeentewapen",
+  monumenten: "Historische monumenten in Eygelshoven",
+  boekenarchief: "Catalogus van onze boekcollectie",
+};
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
@@ -80,9 +54,12 @@ const breadcrumbJsonLd = {
 };
 
 export default async function DeStichtingPage() {
-  const page = await client
-    .fetch(pageBySlugQuery, { slug: "de-stichting" })
-    .catch(() => null);
+  const [page, subpages] = await Promise.all([
+    client.fetch(pageBySlugQuery, { slug: "de-stichting" }).catch(() => null),
+    client
+      .fetch<Subpage[]>(navigationPagesQuery)
+      .catch(() => [] as Subpage[]),
+  ]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -109,21 +86,28 @@ export default async function DeStichtingPage() {
       )}
 
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {subpages.map((sub) => (
-          <Link
-            key={sub.slug}
-            href={`/de-stichting/${sub.slug}`}
-            className="group relative overflow-hidden rounded-sm border border-border bg-white p-6 transition-all hover:border-gold hover:shadow-md"
-          >
-            <div className="absolute inset-x-0 top-0 h-0.5 bg-gold opacity-0 transition-opacity group-hover:opacity-100" />
-            <h2 className="font-serif text-lg font-semibold text-text transition-colors group-hover:text-primary">
-              {sub.title}
-            </h2>
-            <p className="mt-1 font-serif text-sm text-text-light">
-              {sub.description}
-            </p>
-          </Link>
-        ))}
+        {subpages.map((sub) => {
+          const slug = sub.slug.current;
+          const description =
+            sub.description || fallbackDescriptions[slug] || "";
+          return (
+            <Link
+              key={slug}
+              href={`/de-stichting/${slug}`}
+              className="group relative overflow-hidden rounded-sm border border-border bg-white p-6 transition-all hover:border-gold hover:shadow-md"
+            >
+              <div className="absolute inset-x-0 top-0 h-0.5 bg-gold opacity-0 transition-opacity group-hover:opacity-100" />
+              <h2 className="font-serif text-lg font-semibold text-text transition-colors group-hover:text-primary">
+                {sub.title}
+              </h2>
+              {description && (
+                <p className="mt-1 font-serif text-sm text-text-light">
+                  {description}
+                </p>
+              )}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
